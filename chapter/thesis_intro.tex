@@ -22,7 +22,12 @@
             \label{fig:no_attacks_evolution}
         \end{figure}
 		
-	
+        Meanwhile, security of Android apps is not improving. A study conducted on over 400,000 APKs released between 2010 and 2016 belonging to over 28,000 apps used static analysis to see how Android app security evolved over time \cite{android_vulnerabilities_evolution}. It discovered that critical vulnerabilities of various types have always been common in apps. Moreover, app updates generally do not improve security, and can even re-introduce previously fixed vulnerabilities. This is the largest and most comprehensive study of its time to date. Since it only considered APKs released before 2017, the situation might have improved since then, considering efforts by Google to combat malware \cite{google_blog_improve_security}. Indeed, another study on the Google Play ecosystem found that the proportion of malware has dropped significantly in 2017 compared to 2014 \cite{newer_android_vulnerabilities_evolution}, though it studied fewer APKs than \cite{android_vulnerabilities_evolution}.
+        
+    \section{Overview}  
+		\label{sec:intro_overview} 
+		
+		The remainder of Chapter \ref{chap:intro} outlines the document structure, the motivations behind undertaking this project, the aims and objectives of the project and the main contributions of this piece of work.
 		
 	\section{Motivations}
 	    \label{sec:intro_motivations}
@@ -42,6 +47,7 @@
 		Moreover, while the overwhelming majority of vulnerabilities of other types are introduced in apps through the use of third-party libraries and rarely through developer code, ICC vulnerabilities differ in this regard. According to \cite{android_vulnerabilities_evolution}, between a third and a half of ICC vulnerabilities come from code written by the developer directly. Therefore, education regarding this type of vulnerability addressed to the average developer would greatly help with minimizing the occurrence of these faults.
 		
 		\subsection{ICC-related vulnerabilities in related work}
+		    \label{sec:ICC_related_work}
 		
 		Vulnerabilities and cyber attacks concerning communication between Android components are not showcased in detail or intuitively in real word projects similar to mine. These projects either only cover some types of ICC related vulnerabilities, none at all, or are not easy to use, do not have good guidance, or do not show a realistic scenario.
 		
@@ -68,17 +74,28 @@
 	\section{Project Aims and objectives}
 		\label{sec:intro_objective} 
 		
-		In this section, we will discuss the causes of the precarious security of apps and why educational tools are a good solution. Following that, I will present the aim of this project, and the actions or objectives that will be undertakes to achieve said aims. 
+		In this section, we will discuss the causes of the precarious security of apps and why intentionally insecure programs are a good solution. Following that, I will present the aim of this project, and the actions or objectives that will be undertakes to achieve said aims. 
 		
 		\subsection{Overview}
 		
 		Why is it that Android app security is often neglected? The reality is that software developers are not always trained in cybersecurity, may lack costly automatic analysis tools, or do not have the time to design and implement secure software due to tight deadlines \cite{malwarebytes_blog}. These issues can be caused by upper management not being aware of the importance of cyber security. Therefore, there needs to be more awareness of cyber security, and of vulnerabilities related to ICC in particular, in the software development industry, especially among developers, penetration testers and project managers.
 		
+		To solve these issues, more education regarding the importance of cyber security in Android is needed. An Android image that is intentionally insecure could be designed as an educational tool. Such software could be used to highlight how android malware works and what it can do. It could teach people how to exploit vulnerabilities and how to fix them.
 		
-	\section{Overview}  
-		\label{sec:intro_overview} 
-		
-		The remainder of Chapter \ref{chap:intro} explains the document structure, the aims and objectives of the project, the motivations behind undertaking it and the main contributions of this piece of work.
+        Such a product would be aimed at developers, penetration testers and senior technical management. For developers, it would make them aware of ICC vulnerabilities, what attackers can do and how to fix these issues. Penetration testers would be able to practice how to hack vulnerable apps using inter component communication. For the upper technical management of businesses, it would raise awareness of cyber security and the need to train staff and allocate proper resources.
+        
+        \subsection{Project Aims}
+        
+        The aim of this project is to create an educational tool that can be used by penetration testers, developers, and tech savvy people alike to learn about Android mobile application vulnerabilities related to Inter Component Communication.
+        
+        \subsection{Project Objectives}
+        
+        The primary objectives of the project, that will make up the minimal viable product, are:
+        
+        \begin{itemize}
+            \item Develop an intentionally insecure Android image that will let the user explore various Inter Component Communication vulnerabilities, how to exploit them, and how to fix them. This will consist of a home application through which the user can access all educational material and can interactively learn about each vulnerability, and a series of apps that act as either a vulnerable app or a malicious app. Each challenge has two apps, one that is vulnerable and the other being the malware that exploits the former.
+            \item Make sure that the experience of using the product is cohesive and pleasant.
+        \end{itemize}
 	
 	\section{Contributions} 
 		\label{sec:intro_contribs} 
@@ -87,16 +104,22 @@
 		
 		\begin{description}	
 		
-			\item[$\bullet$ A LaTeX thesis template]\hfill
+			\item[$\bullet$ An intentionally insecure Android image focused on Inter Component Communication]\hfill
 			
-			Modify this document by adding additional TeX files for your top level content chapters. 
+			During this project, we developed a series of Android apps that showcase a wide range of vulnerabilities related to Inter Component Communication, which are not the main focus of existing related work. 
 			
-			\item[$\bullet$ A typesetting guide of useful primitive elements]\hfill
+			\item[$\bullet$ An educational tool for Android vulnerabilities that does not require the use of ADB shell]\hfill
 			
-			Use the building blocks within this template to typeset each part of your document. Aim to use simple and reusable elements to keep your LaTeX code neat and to make your document consistently styled throughout.
+			The finished product can be used to learn about ICC vulnerabilities on one's smartphone, and does not require one to use the ADB shell in order to attack the vulnerable app.
 			
-			\item[$\bullet$ A review of how to find and cite external resources]\hfill
+			\item[$\bullet$ An intentionally insecure Android image which includes malware]\hfill
 						
-			We review techniques and resources for finding and properly citing resources from the prior academic literature and from online resources.
+			Unlike existing projects of this type, our project has developed real malware apps that attack other apps in the image, and does not rely on the user to use ADB Shell to attack the app.
+			
+			\item[$\bullet$ An intentionally insecure Android image with multiple security levels for each vulnerability]\hfill
+			
+			DVWA has multiple security levels for each vulnerability, as mentioned in subsection \ref{sec:ICC_related_work}. No other related work on Android except ours implements this, to our knowledge.
 			
 		\end{description}
+		
+		For Phile: Is the contirbutions section good?
