@@ -1,0 +1,68 @@
+\chapter{Background}
+    \label{chap:conclusion}
+
+   This chapter will cover the necessary technical background regarding Inter Component Communication. It will first explain Inter Process Communication (IPC) in computing in general. Next, it will give an overview of important concepts of the Android Operating System. Following that, we will explain what components and permissions are in Android, and then go on to discuss in detail Inter Component Communication, which is a type of IPC specific to this OS. Subsequently, we explore the various types of vulnerabilities related to Inter Component Communication. 
+
+    \section{Inter Process Communication} 
+        \label{sec:ipc}
+
+    In the context of computing, a process refers to a running instance of a computer program. A process has its own section of computer memory that it has access to. By default, processes cannot access the memory address space of another process. Processes have one or more threads, which are individual sequences of instructions executed by the computer at a given time. 
+    
+    Inter Process Communication refers to the ways in which processes communicate and share data between each other. Using various means of IPC, computer programs can enhance their functionality greatly. For example, a word processing software like Microsoft Office Word can get data from a spreadsheet through Excel.
+    
+    IPC can be accomplished through a variety of means: sharing files, sharing memory via various APIs, pipes, network sockets, the clipboard, and various means specific to each Operating System.
+    
+    \section{Basics of the Android Operating System}
+        \label{sec:android_basics}
+        
+    Android is an open source operating system designed for use on mobile devices released in September of 2008 \cite{android_release_date}. It is built around a customised version of the Linux kernel. The UI and API are written in Java \cite{android_languages_statistic}, which was also the primary development language for apps until 2019 when it was replaced by Kotlin \cite{android_using_kotlin}. Developer tools package compiled code along with any necessary resource files into an archive file called an APK, or Android package, which is then used by a mobile device to install the application.
+    
+    In Android, each application is by default assigned a unique user ID known only by the OS. The files of an app can only be accessed by a Linux user with the same ID as that of the app. Moreover, each app runs in its own process by default, and each process runs in its own virtual machine \cite{android_os_fundamentals}. Consequently, each Android application runs in its own sandbox, which enhances the security of the system, as apps are generally separated from each other.
+    
+    Throughout the continuous development of Android, the API is modified to introduce new features and improve security or performance. Therefore, in order to identify each incremental version of the API, a unique integer is assigned to each version or level. Over the years, there have been changes to the API that improved software security, and therefore some vulnerabilities are harder or impossible to exploit in current API levels.
+    
+    The manifest of an Android app is an XML file that gives the system information about the app’s structure, capabilities and needs. All Android app components, except broadcast receivers, need to be declared in the manifest file, and for each component you can define permission requirements and the capabilities of the component \cite{android_app_fundamentals}. Moreover, the developer can say in the manifest file what hardware or software system features the app uses, whether those features are required, and what is the minimum API level the app requires. For example, an app would not be installed on a device if the app’s manifest said it required a microphone and the mobile device did not posses microphone hardware.
+    
+    The manifest also specifies the target SDK version of the app, which refers to the API version for which the is built to run on. Android apps can run on devices with a different API version as well.
+    
+    Components will be explained in detail later in section 3.3, and permissions in section 3.4.
+    
+    \section{Android Components}
+        \label{sec:android_components}
+        
+    Android mobile apps are made up of logical building blocks called components. A component is an entity which allows the user or the operating system to access the application \cite{android_app_fundamentals}. Therefore, a component does not necessarily correlate with other computing concepts such as processes or threads. When any component of an app needs to be run, the system starts a process for that app.
+    
+    There are four types of components in Android: activities, services, broadcast receivers and content providers. We will detail these in the rest of section \ref{sec:android_components}
+    
+    \subsection{Activities}
+        \label{subsec:activities}
+        
+    Activities represent the individual app UI screens through which a user interacts with the app. For example, a news aggregator application might have an activity for viewing a list of news articles.
+    
+    Activities are used by the operating system to keep track of what the user sees on screen, what information they are interested in, and the information of minimized apps that might be needed later \cite{android_app_fundamentals}.
+    
+    Activities are independent components \cite{android_app_fundamentals}, and therefore it is possible that activities of different apps collaborate. This is what happens in a browser when the user wants to share a link and they choose between various messaging applications.
+    
+    \subsection{Services}
+        \label{subsec:services}
+        
+    Services are components used for running long-term operations in the background. Importantly, a service does not represent a separate process or thread, but an interface for the system to let the app work in the background \cite{whats_is_a_service}. A service does not have a user interface itself. Examples of the usage of services include VPN apps that maintain a VPN connection in the background.
+    
+    There are three types of services: foreground services, which perform tasks that are noticeable to the user and must display a notification, background services, which do things that are not noticeable to the user, and bound services, which act as servers responding to requests made by client components \cite{services_overview}.
+    
+    \subsection{Broadcast Receivers}
+        \label{subsec:receivers}
+        
+    Broadcast receivers are components that an app uses to receive system wide broadcasts. These broadcasts are messages sent by the operating system or by other apps. Applications can react to various events by using broadcast receivers. For example, the system can send a broadcast to let apps know that the device’s battery is low or that airplane mode has been activated. An app can use a broadcast receiver to listen for an event even when the app is not running. Broadcast receivers do not have a user interface but can display notifications in the device’s status bar. In addition, it is worth noting that they do not have to be declared in the manifest but can be created programmatically as well.
+    
+    There are three types of broadcasts:
+    \begin{itemize}
+        \item Normal broadcasts – These are sent to all receivers at the same time, and each receiver can react independently of other receivers.
+        \item Ordered broadcasts – These are sent to receivers one at a time. Unlike with a normal broadcast, the receiver currently processing the broadcast can change what information the broadcast contains, and can even cancel the broadcast, so that it will not be sent to further receivers \cite{broadcasts_overview}. Broadcast receivers can be registered with a certain priority for getting broadcasts.
+        \item Sticky broadcasts – They are persistent broadcasts, they remain after they have been broadcast to all receivers and are re-broadcast to any new receivers. They have been deprecated since API level 21, because they are very insecure \cite{sticky_broadcast}.
+    \end{itemize}
+    
+    \subsection{Content Providers}
+        \label{subsec:content_providers}
+        
+    Content providers are interfaces through which apps can access data stored in persistent storage such as a remote server, an SQL database or local file storage. A provider can be used by components of the same app or by components of other apps. Therefore, they are used by the system to manage access to shared data. Content providers can restrict access to the data to apps with certain permissions and give temporary access to certain files only \cite{android_app_fundamentals}.
