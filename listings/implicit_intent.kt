@@ -1,0 +1,5 @@
+val noPaymentUri : Uri = Uri.parse("santander_pay://uk.ac.swansea.dascalu.dvmicc.santander/pay")
+val intent = Intent("uk.ac.swansea.dascalu.dvmicc.santander.intent.action.LOGIN")
+intent.addCategory(Intent.CATEGORY_HOME)
+intent.setDataAndType(noPaymentUri, "text/plain")
+startActivity(intent)

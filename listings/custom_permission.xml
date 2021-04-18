@@ -1,0 +1,5 @@
+<permission 
+	android:name="uk.ac.swansea.alexandru.icc_education.permission.BANKING_ACTIVITY" 
+	android:label="@string/lab _bankingActivity" 
+	android:description="@string/desc_bankingActivity" 
+	android:protectionLevel="dangerous" />
