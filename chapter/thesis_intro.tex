@@ -35,6 +35,7 @@
 	    I chose to explore Inter Component Communication vulnerabilities on Android in this project for reasons based on the current state of mobile application security and how this vulnerability category is touched upon in related work.
 	    
 	    \subsection{ICC-related vulnerabilities in current mobile apps}
+	        \label{subsec:ICC_vulnerabilities_current_apps}
 	    
     	One of the categories of vulnerabilities that the authors of \cite{pt_mobile_apps_2019} analysed was Inter Process Communication related vulnerabilities. Inter Process Communication, abbreviated as IPC, refers to any exchange of information between two or more running processes on a computer system. In regards to Android, \cite{pt_mobile_apps_2019} also uses the term Inter Component Communication, or ICC, interchangeably with IPC. Android components are the logical building blocks of an app, and components can communicate with other components, which can belong to the same app or to another app on the same device. Android components, especially if they are of the same app, can run in the same process. Therefore, IPC and ICC are not synonymous, even though they often overlap.
     	
@@ -47,7 +48,7 @@
 		Moreover, while the overwhelming majority of vulnerabilities of other types are introduced in apps through the use of third-party libraries and rarely through developer code, ICC vulnerabilities differ in this regard. According to \cite{android_vulnerabilities_evolution}, between a third and a half of ICC vulnerabilities come from code written by the developer directly. Therefore, education regarding this type of vulnerability addressed to the average developer would greatly help with minimizing the occurrence of these faults.
 		
 		\subsection{ICC-related vulnerabilities in related work}
-		    \label{sec:ICC_related_work}
+		    \label{subsec:ICC_related_work}
 		
 		Vulnerabilities and cyber attacks concerning communication between Android components are not showcased in detail or intuitively in real word projects similar to mine. These projects either only cover some types of ICC related vulnerabilities, none at all, or are not easy to use, do not have good guidance, or do not show a realistic scenario.
 		
