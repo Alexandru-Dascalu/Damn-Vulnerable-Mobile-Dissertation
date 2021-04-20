@@ -4,16 +4,12 @@
 	\section{Current State of Mobile Cyber Security}
 		\label{sec:intro_motivation} 
 		
-		Ever since the release of the iPhone in 2007, smart phones and other mobile devices have played an increasingly larger role in our lives. We are using mobile devices for education, social interaction, commerce, mobile banking, entertainment, work, and more. 
+		Ever since the release of the iPhone in 2007, smart phones and other mobile devices have played an increasingly larger role in our lives. We are using mobile devices for education, social interaction, commerce, mobile banking, entertainment, work, and more. Moreover, 52.6 percent of global web traffic came from mobile devices in 2019, up from 31.6 per cent in 2015 \cite{statista_mobile_web_traffic}. Given this situation, you would hope that mobile app developers have learned lessons from their desktop counterparts, and therefore, the majority of mobile apps are reasonably secure.
 		
-		In the first world, mobile device usage has become ubiquitous. In the UK, smartphones became the most widely owned internet-enabled device in 2015 \cite{ofcom_coms_report}. Moreover, 52.6 percent of global web traffic came from mobile devices in 2019, up from 31.6 per cent in 2015 \cite{statista_mobile_web_traffic}. 
-		
-		Given the statistics from above, you would hope that mobile app developers have learned lessons from their desktop counterparts, and therefore, the majority of mobile apps are reasonably secure.
-		
-		That assertion proves to be false. A study done by cyber security consultancy Positive Technologies analysed 17 mobile apps, 8 for Android and 9 for iOS, through comprehensive penetration testing in 2018 \cite{pt_mobile_apps_2019}. On the client side, it found that only 11\% of the apps had an acceptable level of security, with 56\% having a low or below average level of security, and 43 percent of Android apps had critical vulnerabilities. On the server side, security was no better, with 57 percent of components having low or below average security, and a third of components had critical vulnerabilities. A more worrying piece of information from the report is that the average Android client app in the study contained 3.7 vulnerabilities, with 1.1 of those being of high risk.
+		That assertion proves to be false. A study done by cyber security consultancy Positive Technologies analysed 17 mobile apps, 8 for Android and 9 for iOS, through comprehensive penetration testing in 2018 \cite{pt_mobile_apps_2019}. On the client side, it found that only 11\% of the apps had an acceptable level of security, with 56\% having a low or below average level of security, and 43 percent of Android apps had critical vulnerabilities. A more worrying piece of information from the report is that the average Android client app in the study contained 3.7 vulnerabilities, with 1.1 of those being of high risk.
 		
 		Against the lacklustre security of mobile apps, attackers are becoming more relentless and cunning, and are using more elaborate techniques \cite{pt_threatscape_2018}. In figure \ref{fig:no_attacks_evolution} you can see
-		how the monthly number of reported cyber attacks has tended to increase since 2017. This situation has been exacerbated by the COVID-19 pandemic \cite{fbi_covid_fraud}, \cite{guardian_covid_attack}, with coronavirus related cyberattacks targeting both mobile device users \cite{canada_covid_attack} and hospitals \cite{czech_hospital_covid_attack}.
+		how the monthly number of reported cyber attacks has tended to increase since 2017.
 		
 		\begin{figure}[h]
             \centering
@@ -22,7 +18,7 @@
             \label{fig:no_attacks_evolution}
         \end{figure}
 		
-        Meanwhile, security of Android apps is not improving. A study conducted on over 400,000 APKs released between 2010 and 2016 belonging to over 28,000 apps used static analysis to see how Android app security evolved over time \cite{android_vulnerabilities_evolution}. It discovered that critical vulnerabilities of various types have always been common in apps. Moreover, app updates generally do not improve security, and can even re-introduce previously fixed vulnerabilities. This is the largest and most comprehensive study of its time to date. Since it only considered APKs released before 2017, the situation might have improved since then, considering efforts by Google to combat malware \cite{google_blog_improve_security}. Indeed, another study on the Google Play ecosystem found that the proportion of malware has dropped significantly in 2017 compared to 2014 \cite{newer_android_vulnerabilities_evolution}, though it studied fewer APKs than \cite{android_vulnerabilities_evolution}.
+        Meanwhile, security of Android apps is not improving. A study conducted on over 400,000 APKs released between 2010 and 2016 belonging to over 28,000 apps used static analysis to see how Android app security evolved over time \cite{android_vulnerabilities_evolution}. It discovered that critical vulnerabilities of various types have always been common in apps. Moreover, app updates generally do not improve security, and can even re-introduce previously fixed vulnerabilities. This is the largest and most comprehensive study of its time to date. Another study on the Google Play ecosystem found that the proportion of malware has dropped significantly in 2017 compared to 2014 \cite{newer_android_vulnerabilities_evolution}, though it studied fewer APKs than \cite{android_vulnerabilities_evolution}.
         
     \section{Overview}  
 		\label{sec:intro_overview} 
@@ -62,7 +58,7 @@
 		
 		None of the projects mentioned in this subsection cover all types of ICC vulnerabilities. Furthermore, DIVA, PIVAA and InsecureBankv2 only offer one application which has various components for each individual vulnerability they implement, they do not offer standalone apps for each vulnerability. More importantly, these applications are meant to be used together with other tools such as ADB or Dozer on a computer in order to perform each cyber attack. Thus, these projects do not offer real examples of malicious apps that can attack vulnerable apps. Another area in which these projects are lacking in is the educational instructions provided in the app. They provide little to no instructions, and only some hints as to how to solve each vulnerability, they do not show detailed explanations and code examples of the vulnerability and how to fix it. In addition, they do not provide much interactivity, and have to be used together with a computer. Finally, some of the apps contain major UI bugs, such as the About project activity in PIVAA.
 		
-		Damn Vulnerable Web Application, or DVWA, had multiple security levels for each vulnerability, where in each one the vulnerable program uses code that is increasingly secure. It tells the user what each level does, why it is not perfect, and shows source code for it. This is a very useful feature that is not shared by the three insecure Android app projects mentioned above in this subsection.
+		Damn Vulnerable Web Application, or DVWA, had multiple security levels for each vulnerability, where in each one the vulnerable program uses code that is increasingly secure. It tells the user what each level does, how secure it is, and shows relevant source code for it. This is a very useful feature that is not shared by the three insecure Android app projects mentioned earlier in this subsection.
 		
 		\subsection{Motivation Conclusion}
 		

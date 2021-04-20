@@ -58,6 +58,10 @@
 %% Uncomment the following line for hyper links - not recommended for printing
 \usepackage[colorlinks, linkcolor=, anchorcolor=, citecolor=, filecolor=, menucolor=, runcolor=, urlcolor=]{hyperref}
 
+% for referencing ranges of sections
+\usepackage{cleveref}
+\crefrangelabelformat{subsection}{#3#1#4--#5\crefstripprefix{#1}{#2}#6}
+
 \setcounter{tocdepth}{1}
 %\setcounter{minitocdepth}{3} 
 \linespread{1.31}
