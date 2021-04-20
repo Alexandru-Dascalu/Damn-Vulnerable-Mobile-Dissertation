@@ -20,7 +20,7 @@
     \subsection{Home Menu}
         \label{subsec:home_menu}
         
-    \begin{wrapfigure}[18]{r}{0.4\textwidth}
+    \begin{wrapfigure}[19]{r}{0.4\textwidth}
         \centering
         \includegraphics[width=0.4\textwidth]{graphics/home_activity.PNG}
         \caption{The first menu in the DVM-ICC app.}
@@ -34,10 +34,30 @@
         
     When clicking on a challenge, the user is taken to a menu where they can change the settings that define how the challenge will be undertaken. Here, you can set the operation mode for the challenge. Moreover, the user can enable or disable the malware of the selected challenge. If disabled, the malicious app will not perform any cyber-attack and therefore it will not interfere with any vulnerable app or the rest of the system.
     
-    The most important settings on this screen is the security level of the vulnerable app. Inspired from DVWA, as described in subsection \ref{subsec:ICC_related_work}, these levels define how secure the vulnerable app is against attacks from the malware. Each challenge's vulnerable app has between 2 and 5 security levels, with each successive level using more secure code. This culminates with the Impossible level, where the vulnerability is fixed and the malware can not perform the attack. When the malware is enabled, it will overcome the defences of the current security level, except for the Impossible level. The number of security levels and their meaning depends on the challenge. In general, each security level means that a component or broadcast is protected with a more powerful permission, that components are no longer exported or that an intent is now sent explicitly. 
+    The most important setting on this screen is the security level of the vulnerable app. Inspired from DVWA, as described in subsection \ref{subsec:ICC_related_work}, these levels define how secure the vulnerable app is against attacks from the malware. Each challenge's vulnerable app has between 2 and 5 security levels, with each successive level using more secure code. This culminates with the Impossible level, where the vulnerability is fixed and the malware can not perform the attack. When the malware is enabled, it will overcome the defences of the current security level, except for the Impossible level. The number of security levels and their meaning depends on the challenge. In general, each security level means that a component or broadcast is protected with a more powerful permission, that components are no longer exported or that an intent is now sent explicitly. 
     
-    The security level setting will dynamically change the code that the vulnerable app and malware of that challenge use, the user does not need to restart the apps, with some exceptions. The challenge settings can be changed at any time while doing a challenge.
+    These settings are written to text file that is located in the DVM-ICC's app specific directory on the device's external storage, from where it can be accessed by any other app, including the other apps that are part of this project. The security level setting will dynamically change the behaviour of the vulnerable and malicious apps, and the user does not need to restart them, with some
+    exceptions. The challenge settings can be changed at any time while doing a challenge.
+    
+    For Phil: Should I put the details about how the settings are communicated to the other apps here? Or should I put them in section 3.1?
     
     \subsection{Identifying the malware and the vulnerable app}
         \label{subsec:identify_challenge_apps}
         
+    Once the user applies the settings described in subsection \ref{subsec:challenge_settings}, the application starts the Challenge activity, which you can see in figure \ref{fig:manifests_fragment}. The first task of every challenge is to identify the pair of vulnerable and malicious apps for that challenge from amongst all of the apps that are part of the project, except the DVM-ICC app itself. 
+    
+    The Info page gives a technical description of one of the two major attack categories, Intent Hijacking or Intent Spoofing, followed by a detailed description of the specific cyber attack related to this challenge. After reading and understanding this information, the user needs to go the Manifests page, where they can view for each app the contents of its manifest and all snippets of code that sends intents. Based on the technical background the user was given in the Info page and in the Home Menu from subsection \ref{subsec:home_menu}, they need to look through the code in the Manifests page and try to identify the vulnerable app and the malware for this challenge. 
+    
+    The user should be able to detect vulnerable apps by looking for intents being sent implicitly or for exported components, for example. Malwares can be usually identified by the use of intent filters matching intents that are only sent by a vulnerable app, or by sending an explicit intent to another app that is part of this project. The features that identify the vulnerable app and the malware depend on the selected challenge.
+    
+    \begin{wrapfigure}[20]{r}{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{graphics/manifests.PNG}
+        \caption{The Manifests page in the Challenge activity.}
+        \label{fig:manifests_fragment}
+    \end{wrapfigure}
+    
+    The Questions page contains text boxes where the user can type in their answers, and they will be told if they have correctly identified the apps.
+    
+    
+    
