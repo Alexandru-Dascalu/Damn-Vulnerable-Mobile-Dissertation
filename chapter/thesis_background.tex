@@ -32,7 +32,7 @@
     \subsection{Broadcast Receivers}
         \label{subsec:receivers}
         
-    Broadcast receivers are components that an app uses to receive system wide broadcasts. These broadcasts are messages sent by the operating system or by other apps. Applications can react to various events by using broadcast receivers. For example, the system can send a broadcast to let apps know that the device’s battery is low or that airplane mode has been activated. An app can use a broadcast receiver to listen for an event even when the app is not running. Broadcast receivers do not have a user interface but can display notifications in the device’s status bar. In addition, it is worth noting that they do not have to be declared in the manifest but can be created programmatically as well.
+    Broadcast receivers are components used to receive system wide broadcasts. These broadcasts are messages sent by the operating system or by other apps. Applications can react to various events by using broadcast receivers. For example, the system can send a broadcast to let apps know that the device’s battery is low. An app can use a receiver to listen for an event even when the app is not running. Receivers do not have a user interface but can display notifications. In addition, it is worth noting that they do not have to be declared in the manifest but can be created programmatically as well.
     
     There are three types of broadcasts, two of which are relevant to our project:
     \begin{itemize}
@@ -48,9 +48,9 @@
     \section{Permissions}
         \label{sec:permissions}
         
-    Android follows the principle of least privilege. This principle is enforced through a system of permissions, meaning that an application can only access sensitive data, system features or components of other applications if it possesses the necessary requirements \cite{permissions_guide}. For instance, an application needs the correct permission to access the user’s contacts.
+    Android follows the principle of least privilege. This principle is enforced through a system of permissions, meaning that an application can only access sensitive data, system features or components of other applications if it possesses the necessary requirements \cite{permissions_guide}. For instance, an application needs the correct permission to access the user’s contacts. 
     
-    The developer can protect a component of an app with permission requirements by adding an \lstinline|android:permission| tag in the manifest file.
+    Moreover, developers can protect a component of an app with permission requirements by adding an \lstinline|android:permission| tag in the manifest file. Only components in apps that have that permission will be able to send an intent to the protected component.
     
     \subsection{Types of permissions}
         \label{subsec:types_of_permissions}

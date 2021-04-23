@@ -91,8 +91,7 @@
         \label{fig:security_levels}
     \end{wrapfigure}
         
-    While completing the task described in subsection \ref{subsec:perform_attack}, the user can click on the Help button that you can see at the top right in figure \ref{fig:manifests_fragment} to view an explanation of the security levels for the current challenge.
-    This view is hidden until the user has identified the pair of apps for the current challenge, as explained in subsection \ref{subsec:identify_challenge_apps}.
+    While completing the task described in subsection \ref{subsec:perform_attack}, the user can click on the Help button that you can see at the top right in figure \ref{fig:manifests_fragment} to view an explanation of the security levels for the current challenge. This view is hidden until the user has identified the pair of apps for the current challenge, as explained in subsection \ref{subsec:identify_challenge_apps}.
     
     For each level, it will explain how it works and how it is more secure than the previous level. Following this explanation is a view of the full manifest of the vulnerable app, as it would be used for that security level. Finally, this view might show code snippets that introduce a vulnerability through the way they send an intent.
         
@@ -137,10 +136,7 @@
         
     The vulnerable app for this challenge is News Aggregator, an application that looks for online news articles from various sources and shows them to the user. When its background service has downloaded the news articles, it will send a broadcast with the JSON data, which will be received by a broadcast receiver in the app. This receiver will process the data and update the UI. The broadcast is sent as an implicit intent, and any receiver with an intent filter that includes the action string of the broadcast will get it.
     
-    In a real world application, developers might want to use an implicit broadcast for intra-app communication in order
-    to make the application more loosely coupled, and thus more modular and flexible.
-    Another reason might be that you want other apps made by you to know when the News
-    Aggregator has gotten some articles.
+    In a real world application, developers might want to use an implicit broadcast for intra-app communication in order to make the application more loosely coupled, and thus more modular and flexible. Another reason might be that you want other apps made by you to know when the News Aggregator has gotten some articles.
 
     The malware for this challenge is the Call Logger app, which displays the user's call history. In it, the attacker has added a broadcast receiver with an intent filter that is identical to that of News Aggregator's receiver. If Call Logger and News Aggregator are installed on the same device, the broadcast sent by News Aggregator will be received by both its receiver and the malware's receiver. Call Logger can therefore see what news articles a user is looking at and what they might be interested in.
     
@@ -172,8 +168,7 @@
         
     This challenge only has Low, High and Impossible security levels.
         
-    Since the broadcast is sent by the system and not by the app, we can not protect it with a
-    permission. The developer of the Redirect app can set their receiver's priority to the maximum possible value, like the malware does. This way, the receiver of this app will hopefully be called before the malware's receiver, change the number in the broadcast, and then cancel it so the malware does not receive it. The number will still be dialed because when the broadcast was sent by the OS, a final receiver was specified, which gets the broadcast even if it is canceled. This is what the vulnerable app does in the High security Level.
+    Since the broadcast is sent by the system and not by the app, we can not protect it with a permission. The developer of the Redirect app can set their receiver's priority to the maximum possible value, like the malware does. This way, the receiver of this app will hopefully be called before the malware's receiver, change the number in the broadcast, and then cancel it so the malware does not receive it. The number will still be dialed because when the broadcast was sent by the OS, a final receiver was specified, which gets the broadcast even if it is canceled. This is what the vulnerable app does in the High security Level.
 
     According to the Android documentation, receivers with the same priority are executed in an arbitrary order \cite{broadcasts_overview}. From our experience, on devices on Android 7.1 or 8, receivers with the same priority are called in alphabetical order of their app package names. For this reason, the package name of the malware is acpu\_booster, to maximise the chance its receiver will get called first, before Call Redirect's receiver can cancel the broadcast. Consequently, the attack can still happen in the High security level. Moreover, other legitimate receivers do not get the ordered broadcast, as Call Redirect canceled it before they had the chance to receive it.
 
@@ -182,7 +177,7 @@
     \subsection{Broadcast Theft - Man In the Middle}
         \label{subsec:broadcast_theft_mitm}
         
-    The vulnerability explored by this challenge is the same as the for the Broadcast Theft - DOS challenge in subsection \ref{subsec:broadcast_theft_dos}. The difference is that the cyber atack has a different outcome. It is a Man in the Middle attack instead of Denial of Service.
+    The vulnerability explored by this challenge is the same as the for the Broadcast Theft - DOS challenge in subsection \ref{subsec:broadcast_theft_dos}. The difference is that the cyber atack has a different outcome, it is a Man in the Middle attack instead of Denial of Service.
     
     \subsubsection{Implementation}
         \label{subsubsec:broadcast_theft_mitm_implementation}
@@ -194,15 +189,22 @@
         
     The Security levels for this challenge are Low, High and Impossible, and they function in the same way as the security levels of Broadcast Theft - DOS, described in subsection \ref{subsec:broadcast_theft_dos}. The only differences are that the malware does not cancel the broadcast and instead changes its data, and that the package name of the malware is abattery\_booster. The latter is to make sure the malware's receiver gets the broadcast first.
     
-    \subsection{Activity Intent Hijacking}
+    \subsection{Activity Intent Hijack}
         \label{subsec:activity_hijacking}
         
     In this type of attack, a hacker takes advantage of the use implicit intents so that a malicious activity is launched instead of the intended one, by declaring a matching intent filter for their malicious activity in the manifest.
     
-    In a sophisticated version of this attack, the attacker can use phishing to steal user credentials \cite{2010_icc_paper}. If an app uses an implicit intent to start its Login activity, a hacker can use an identical intent filter for a fake Login activity in their malware. Since the attacker reverse engineered the vulnerable app, they can make the fake activity look identical to the real one. The implicit intent will match both the fake Log In activity and the legitimate one, and thus prompt the user to choose between them. The attacker can give a confusing name to their malware, or make the icons of the two apps similar, to make the user choose the malware. The unaware user then types in their credentials on the fake Login screen, which are then be sent to the hacker.
+    In a sophisticated version of this attack, the attacker can use phishing to steal user credentials \cite{2010_icc_paper}. If an app uses an implicit intent to start its Login activity, a hacker can use an identical intent filter for a fake identical looking Login activity in their malware. The implicit intent will match both the fake Log In activity and the legitimate one, and thus prompt the user to choose between them. The attacker can give a confusing name to their malware, or make the icons of the two apps similar, to make the user choose the malware. The unaware user then types in their credentials on the fake Login screen, which are then be sent to the hacker.
     
     \subsubsection{Implementation}
         \label{subsubsec:activity_hijack_implementation}
+        
+    \begin{wrapfigure}[19]{r}{0.35\textwidth}
+        \centering
+        \includegraphics[width=0.35\textwidth]{graphics/activity_hijack.PNG}
+        \caption{Choosing between activity of vulnerable app and malware.}
+        \label{fig:activity_hijack}
+    \end{wrapfigure}
         
     The vulnerable app for this challenge is Santander, a banking app. After they log in, the user can view details of fictitious bank accounts and can make fictional payments to another account, which will decrease the balance one of the accounts displayed in the app.
     
@@ -210,7 +212,7 @@
 
     The attacker decompiled the Santander app to see the code for the Login activity and its intent filter. They made an activity in the Money Manager malware that looks identical to the one in Santander, and added to it an intent filter. Money Manager is an app for tracking and categorising one's income and expenses, but it does not have full functionality.
     
-    When you open the app, the user sees a Loading screen, which sends an implicit intent to start the Login activity when it ends. There will be two filters that match with this intent, and therefore the user will be asked to pick between Santander and Money Manager. Both are financial apps, and Money Manager has a similar icon and colour theme, and therefore a careless user might select the malware. Money Manager's Login activity looks identical to Santander's, so the user types in their credentials, which the malware can then send to the attacker. To make it as if nothing suspicious happened, it will say the credentials are incorrect and then start the legitimate Login activity with an explicit intent.
+    When you open the app, the user sees a Loading screen, which sends an implicit intent to start the Login activity when it ends. There will be two filters that match with this intent, and therefore the user will be asked to pick between Santander and Money Manager, as you can see in figure \ref{fig:activity_hijack}. Both are financial apps, and Money Manager has a similar icon and colour theme, and therefore a careless user might select the malware. Money Manager's Login activity looks identical to Santander's, so the user types in their credentials, which the malware can then send to the attacker. To make it as if nothing suspicious happened, it will say the credentials are incorrect and then start the legitimate Login activity with an explicit intent.
     
     \subsubsection{Security Levels}
         \label{subsubsec:activity_hijack_security_levels}
@@ -222,7 +224,21 @@
     \subsection{Content Provider URI Hijacking}
         \label{subsec:provider_uri_hijacking}
         
-   Intents can transmit data using a URI and these URIs can point to data stored using a Content Provider. We have also explained that permissions can be set on a per component basis. However, when declaring a Content Provider in the manifest file, the developer can set the \lstinline|android:grantUriPermissions| tag of the \lstinline|<provider>| element to true. This means that the content provider can allow temporary access to data linked to in a URI for a component that does not otherwise have the permission required by the provider. Therefore, external apps can access the content provider, even if the provider is not exported and is thus not accessible by external apps in general.
+   In section \ref{sec:inter_component_communication} we saw that intents can transmit data using a URI. These URIs can point to data stored using a Content Provider. When declaring a Content Provider in the manifest file, the developer can set the \lstinline|android:grantUriPermissions| tag of the \lstinline|<provider>| element to true. This means that the content provider can allow temporary access to data linked to in a URI in an intent for a component in another app that received that intent. Therefore, external apps can access the content, even if the provider is not exported and thus not normally accessible by external apps.
     
-    In order to do this, the intent that transmits the URI link must have the \lstinline|FLAG_GRANT_READ_URI_PERMISSION| or \lstinline|FLAG_GRANT_WRITE_URI_PERMISSION| flags added to it. If this intent is an implicit intent and is intercepted by a malicious component, then that component can read the data and perhaps modify it. This attack can put private information, such as debit card information or a phone number, in the hands of attackers.
+    In order to do this, the intent that transmits the URI link must have the \lstinline|FLAG_GRANT_READ_URI_PERMISSION| or \lstinline|FLAG_GRANT_WRITE_URI_PERMISSION| flags added to it. If this intent is an implicit intent and is intercepted by a malicious component, then that component can read the data and perhaps modify it.
+    
+    \subsubsection{Implementation}
+        \label{subsubsec:provider_uri_hijack_implementation}
+        
+    The vulnerable app for this challenge is Whatsapp, an internet messaging app named after the popular real world app. This app lets you view some hard-coded chats, it does not have real functionality. These chats are accessed by the app through its content provider, that is not exported, but that has \lstinline|android:grantUriPermissions| set to true in its manifest. The user can click on a button to go to another activity where they can select what chats they want to delete. When they click the delete button, the activity will send an implicit intent that contains the selection of chats, a URI to where chats are stored in the provider, and flags for temporary read and write permissions. This intent is received by a service of Whatsapp, which is responsible for accessing the provider and deleting the messages.
+    
+    Because this intent is implicit, it can be intercepted by the malware, which is the SMS Messages app in this case. This app only reads SMS messages on the device, it can not send new messages. The malware contains a service with an intent filter identical to that of the Whatsapp service. The malicious service will get the intent, and because the intent has temporary access flags, the malicious service can query the Whatsapp content provider and read messages. You can see these messages in the malware's log in figure \ref{fig:malware_log} on page \pageref{fig:malware_log}. Because Whatsapp's provider is not exported, if the malware queried the provider without having that intent, an exception would be thrown.
+    
+    \subsubsection{Security Levels}
+        \label{subsubsec:provider_uri_hijack_security_levels}
+        
+    This challenge only has Low, High and Impossible security levels. In the High level, the provider is not exported and has not enabled temporary permissions overall. However, temporary permissions are enabled only for the path where chats are stored. Although the rest of the data in the provider can not be accessed by other apps, the data in this path can still be accessed by any component with a temporary permission. The temporary permission is still transmitted through the implicit intent sent by the Delete activity in Whatsapp.
+    
+    In the Impossible level, the intent sent by the Delete activity, which contains URIs to messages and has temporary permission flags, is sent as an explicit intents. The Messages malware can not get these intents and therefore can not get permission to access the provider. If it tries to query the provider, an exception will be thrown.
     
