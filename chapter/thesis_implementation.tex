@@ -1,6 +1,7 @@
 \chapter{Implementation}
     \label{chap:implementation}
 
+\todo{careful with app names, I would suggest not using names of real apps. I also still think it would be good to show code snippets as part of your discussions in this section. Especially if you can e.g. highlight the differences between levels}
    This chapter will explain my implementation for this project. It will first give an overview of the architecture of the software product. After that, we will present each one of the challenges that have been implemented so far.
 
     \section{Architecture} 
@@ -15,7 +16,7 @@
     \section{DVM-ICC Application}
         \label{sec:home_app}
         
-    In this section, I will explore the features of the DVM-ICC Android app. While doing so, I will explain the intended workflow that a user needs to follow and how app provides an educational experience. The follow description applies to the Beginner mode. The app has three different operation modes, which will be fully explained in subsection \ref{subsec:challenge_modes}.
+    In this section, we will explore the features of the DVM-ICC Android app. While doing so, we will explain the intended workflow that a user needs to follow and how app provides an educational experience. The following description applies to the Beginner mode. The app has three different operation modes, which are fully explained in subsection \ref{subsec:challenge_modes}.
     
     \subsection{Home Menu}
         \label{subsec:home_menu}
@@ -143,9 +144,9 @@
     \subsubsection{Security Levels}
         \label{subsubsec:broadcast_theft_security_levels}
     
-    When sending a broadcast, the developer can specify the permission that a receiver's app needs to have in order to be able to get the broadcast. This can be used to guard against Broadcast Theft. A developer can declare their own custom permission, as seen in subsection \ref{subsec:custom_permissions}, which must be obtained by receivers to be able to get broadcasts sent by the developer's app. 
+    When sending a broadcast, the developer can specify the permission that a receiver's app needs to have in order to be able to get the broadcast. This can be used to guard against Broadcast Theft. A developer can declare their own custom permission, as seen in Section \ref{sec:permissions}, which must be obtained by receivers to be able to get broadcasts sent by the developer's app. 
     
-    If the developer does not set the protection level of the permission, it will default to "normal". This means that the malware will get it automatically at install time if it asks for that permission in its manifest. This is what happens in the Medium security level. In the High security level, the protection level of News Aggregator's custom permissions is set to "dangerous", meaning the malware needs to ask the user to grant that permission. This is quite secure, but a careless user may still grant it. The most secure protection level for the custom permission is "signature", but if the private key of the certificate is not stored securely, it can be stolen and be used to sign the malware, which would be able to get the permission when it is installed and receive the broadcast. This is demonstrated in the Very High security level. The protection levels of permissions were fully explained in subsection \ref{subsec:types_of_permissions}.
+    If the developer does not set the protection level of the permission, it will default to "normal". This means that the malware will get it automatically at install time if it asks for that permission in its manifest. This is what happens in the Medium security level. In the High security level, the protection level of News Aggregator's custom permissions is set to "dangerous", meaning the malware needs to ask the user to grant that permission. This is quite secure, but a careless user may still grant it. The most secure protection level for the custom permission is "signature", but if the private key of the certificate is not stored securely, it can be stolen and be used to sign the malware, which would be able to get the permission when it is installed and receive the broadcast. This is demonstrated in the Very High security level. The protection levels of permissions were explained in Section \ref{sec:permissions}.
     
     Because permissions with a normal or signature permissions are granted at install time, they can not be changed dynamically. Therefore, for the Medium and Very High security levels, the user needs to use the Call Logger 2 and 3 app, respectively. These are identical to Call Logger, except they ask in their manifest for the relevant permission for their security level, and they have a different app icon.
     
@@ -154,7 +155,7 @@
     \subsection{Broadcast Theft - Denial of Service}
         \label{subsec:broadcast_theft_dos}
         
-    The challenge presented in subsection \ref{subsec:broadcast_theft} focused on normal broadcasts. Ordered broadcast are sent to receivers one at a time, as explained in subsection \ref{subsec:receivers}. The use of ordered implicit broadcasts can not only enabled eavesdropping as described in subsection \ref{subsec:broadcast_theft}, but denial of service attacks as well \cite{2010_icc_paper}. A malicious app can register a broadcast receiver with a very high priority to ensure it is the first to receive it. It can extract the data from the broadcast, and then abort the broadcast, ensuring the intended receivers do not get it and thus perform a Denial of Service attack.
+    The challenge presented in subsection \ref{subsec:broadcast_theft} focused on normal broadcasts. Ordered broadcast are sent to receivers one at a time, as explained in Section \ref{sec:android_components}. The use of ordered implicit broadcasts can not only enabled eavesdropping as described in subsection \ref{subsec:broadcast_theft}, but denial of service attacks as well \cite{2010_icc_paper}. A malicious app can register a broadcast receiver with a very high priority to ensure it is the first to receive it. It can extract the data from the broadcast, and then abort the broadcast, ensuring the intended receivers do not get it and thus perform a Denial of Service attack.
     
     \subsubsection{Implementation}
         \label{subsubsec:broadcast_theft_dos_implementation}
@@ -242,12 +243,55 @@
     
     In the Impossible level, the intent sent by the Delete activity, which contains URIs to messages and has temporary permission flags, is sent as an explicit intents. The Messages malware can not get these intents and therefore can not get permission to access the provider. If it tries to query the provider, an exception will be thrown.
     
+    \section{System Requirements}
+        \label{sec:requirements}
+
+    \begin{center}
+        \begin{longtable}{|p{0.4cm} |p{5.7cm} |p{6.9cm} |}
+        \caption{Functional System Requirements for the project.} \label{table:requirements} \\
+        
+        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
+        \endfirsthead
+        
+        \multicolumn{3}{c}%
+        {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
+        \endhead
+        
+        \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+        \endfoot
+        
+        \hline \hline
+        \endlastfoot
+        
+         \hline
+         1 & The product provides detailed explanation of the technical background needed to understand the vulnerabilities of each challenge. & The DVM-ICC app displays detailed descriptions of Android components, permissions, Inter Component Communication and of each individual attack and vulnerability. \\
+         \hline
+         2 & The custom Android image shall allow the user to perform the following cyber-attacks in the form of challenges: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Hijack and Content Provider URI Hijack. & There is a vulnerable app and malware for each named challenge, and the malware can successfully attack the former. The DVM-ICC app provides guidance for identifying these apps and using them. \\
+         \hline
+         3 & The first task of the challenge is for the user to identify the vulnerable app and malware. & The user can view in the DVM-ICC app the manifest and intent sending code snippets for every app of the project. Based on these, they shall be able to recognise the pair of apps for each challenge and submit their answers in the DVM-ICC app. \\
+         \hline
+         4 & Each challenge mentioned in requirement 2 has between two and five security levels. These levels show different ways to protect an app against the attack of that challenge, each being increasingly more secure. & The user can select between 2 and five levels for each challenge. Depending on the level, the vulnerable app will use code that is less secure or more secure. The malware will be able to attack the app in all levels, except the last level, the Impossible level. \\
+         \hline
+         5 & The user can view information about the security levels of each challenge. & After completing the task from requirement 3, the user can view in an activity detailed descriptions for how each security level is different, along with relevant code snippets of the vulnerable app. \\
+         \hline
+         6 & As the second task of every challenge mentioned in 2, the user shall be able to see the result of the cyber attack. & For all security levels in the challenge, except the Impossible level, the user can view any data stolen from the vulnerable app and a flag in the malware, or observe the effects of the attack. Each level has a unique string flag, which the user needs to find and submit in the DVM-ICC app. \\
+         \hline
+         7 & The product will have a mode for experienced users. & The user can switch to and from the "Experienced" mode, which hides all information that would help the user and only displays code snippets. \\
+         \hline
+         8 & The product will have a Make Own Malware mode. & In this mode, the malware is disabled, and the user only sees an explanation of the vulnerability and attack. \\
+         \hline
+        \end{longtable}
+    \end{center}
+    
     \section{Testing}
         \label{sec:testing}
         
-    The testing for the project was done using manual acceptance tests, which are documented in table \ref{table:tests}. These tests consist of using the apps of the project as the final user would and observing if the software behaves as expected. They check to see that the software fulfills the System Requirements. They were conducted on both a Pixel 3 emulator with Android 7.1 and a Huawei P10 Lite with Android 8.0. In table \ref{table:tests}, the tests with a number followed by a "*" are actually a set of tests, one for each challenge, but they are described as one to save space.
+    The testing for the project was done using manual acceptance tests, which are documented in table \ref{table:tests}. These tests consist of using the apps of the project as the final user would and observing if the software behaves as expected. They check to see that the software fulfills the System Requirements. They were conducted on both a Pixel 3 emulator with Android 7.1 and a Huawei P10 Lite with Android 8.0. All tests passed.
     
-    We chose to do the tests manually instead of automating them due to time constraints and technical reasons. The project was being behind schedule, and writing automated systems tests would have taken time that was used to implement more features and challenges. Moreover, to test the communication between malware and vulnerable app, we would need to test if an intent sent by an app is received by a specific app. It is possible to test that an app sends certain intents \cite{testing_intents}, but we have not been able to find online any way to also test that a certain app receives the intent. Finally, the product is not complex enough to make manual testing impractical.
+    We chose to do the tests manually instead of automating them due to time constraints and technical reasons. The project was behind schedule, and writing automated systems tests would have taken time that was used to implement more features and challenges. Moreover, to test the communication between malware and vulnerable app, we would need to test if an intent sent by an app is received by a specific app. It is possible to test that an app sends certain intents \cite{testing_intents}, but we have not been able to find a way to test that a certain app receives the intent. Finally, the product is not complex enough to make manual testing impractical.
+    
+    In table \ref{table:tests}, the tests with a number followed by a "*" are actually a set of tests, one for each challenge, but they are grouped together to save space. These sets of tests are fully described for each individual challenge in Appendix \ref{}.
     
     \begin{center}
         \begin{longtable}{|p{0.4cm} |p{5.2cm} |p{7.4cm} |}
@@ -270,15 +314,15 @@
          \hline
          1 & Open the app. & On the first menu, you can scroll through the Introduction and Info pages. \\
          \hline
-         2 & Open the app and click on the Challenges button. & The Challenges page has five buttons with the following texts: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Intent Hijack and Content Provider URI Hijack. \\
+         2 & Open the app and click on the Challenges button. & The Challenges page has five buttons with the texts: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Intent Hijack and Content Provider URI Hijack. \\
          \hline
-         3 & In any challenge, go to the Manifests page. & The Manifests page contains the correct Manifest and code snippets for every app in the project. \\
+         3 & In any challenge, go to the Manifests page. & The Manifests page contains the correct Manifest and intent sending code snippets for every app in the project. \\
          \hline
          4 & In any challenge, click on the help icon. & No new activity opens and a warning appears. \\
          \hline
-         5 & In any challenge, click on the Instructions button. & The Instructions page says that instructions are not available yet.\\
+         5 & In any challenge, click on the Instructions button. & Instructions page says that instructions are not available yet.\\
          \hline
-         6 & In any challenge, click on the Questions button, answer the first two questions correctly then click on the Help button. & The Security Levels info activity starts, and it contains the correct explanation, full Manifest and relevant code snippets for all security levels of the selected challenge.\\
+         6 & In any challenge, click on the Questions button, answer the first two questions correctly then click on the Help button. & The Security Levels info activity starts. It contains the correct explanation, manifest and relevant code snippets for all security levels of the selected challenge.\\
          \hline
          7 & In any challenge, click on the Questions button, answer the first two questions correctly then click on the Instructions button. & The Instructions page displays the correct instructions for completing that challenge.\\
          \hline
@@ -288,13 +332,13 @@
          \hline
          10* & In all challenges, go to the Info page. & The Info page has the correct description for the attack and vulnerability of the selected challenge. \\
          \hline
-         11* & In all challenges, click on the Questions button. & The Questions page contains two questions for identifying the vulnerable app and malware, respectively, a question for the flag of each security level, except the impossible level, of the selected challenge, and two questions for identifying the lines of code that introduce the vulnerability and attack, respectively. \\
+         11* & In all challenges, click on the Questions button. & The Questions page contains two questions for identifying the vulnerable app and malware, respectively, a question for the flag of each security level of the challenge, except the impossible level, and two questions for identifying the lines of code that introduce the vulnerability and attack, respectively. \\
          \hline
          12* & In all challenges, click on the Questions button. Type in wrong answers for all questions and click each submit button. & The submit buttons do not change. All question inputs are still enabled and their border turns red. \\
          \hline
-         13* & In all challenges, click on the Questions button. Type in the correct answer for the selected challenge for all questions and click each submit button. & The submit buttons become outlined, their border and text is green, their text says "Completed" and they are not clickable anymore. The question inputs can not be re-edited and the correct answers can still be seen. \\
+         13* & In all challenges, click on the Questions button. Type in the correct answer for the selected challenge for all questions and click each submit button. & The submit buttons become outlined, their border and text is green, their text is "Completed" and they are not clickable anymore. The question inputs can not be re-edited and the correct answers can still be seen. \\
          \hline
-         14* & In all challenges, for any security level, disable the malware and clear its log. Use the apps according the challenge's instructions. & The log of the malware is still empty, meaning that attack did not happen. \\
+         14* & In all challenges, for any security level, disable the malware and clear its log. Use the apps according the challenge's instructions. & The log of the malware is still empty. \\
          \hline
          15* & In all challenges, for all security levels, enable the malware and clear its log. Use the apps according the challenge's instructions. & The log of the malware contains the correct flag for that security level, as well as any data stolen from the vulnerable app. There may be other expected outcomes in regards to how the malware or vulnerable app behaves, depending on the challenge and the security level.\\
          \hline
