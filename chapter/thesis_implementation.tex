@@ -111,11 +111,11 @@
     \subsection{Operation Modes}
         \label{subsec:challenge_modes}
     
-    As mentioned at the beginning of section \ref{sec:home_app}, the DVM-ICC application supports three modes. The Beginner mode has already been described in sub\cref{subsec:home_menu,subsec:challenge_settings,subsec:identify_challenge_apps,subsec:perform_attack,subsec:security_levels_explanation,subsec:challenge_conclusion}. It is meant for less experienced users, who need to given detailed explanations in order to understand the ICC vulnerabilities of each challenge.
+    As mentioned at the beginning of section \ref{sec:home_app}, the DVM-ICC application supports three modes. The Beginner mode has already been described in sub\cref{subsec:home_menu,subsec:challenge_settings,subsec:identify_challenge_apps,subsec:perform_attack,subsec:security_levels_explanation,subsec:challenge_conclusion}. It is meant for less experienced users, who need to be given detailed explanations to understand the vulnerabilities of each challenge.
     
-    The Expert Mode works in the same way as the Beginner mode, but it hides a lot of information from the user to increase the difficulty. In the Challenge activity from figure \ref{fig:manifests_fragment} on page \pageref{fig:manifests_fragment}, the Info page will be hidden, and the Security Levels Explanation activity from figure \ref{fig:security_levels} will only contain code snippets, without any of the explanations.
+    The Expert Mode works in the same way as the Beginner mode, but it hides a lot of information from the user to increase the difficulty. In the Challenge activity from figure \ref{fig:manifests_fragment} on page \pageref{fig:manifests_fragment}, the Info page will be hidden, and the Security Levels Explanation activity from figure \ref{fig:security_levels} will only contain code snippets, without any explanations.
     
-    The Make your own Malware mode disables the malware app of the current challenge in order to allow the user to create their own malware and attack the vulnerable app without interference from the included malware. In this mode, the user only has access to the Info page described in subsection \ref{subsec:identify_challenge_apps} and the Security Levels activity described in subsection \ref{subsec:security_levels_explanation}.
+    The Make your Own Malware mode disables the malware app of the current challenge in order to allow the user to create their own malware and attack the vulnerable app without interference from the included malware. In this mode, the user only has access to the Info page described in subsection \ref{subsec:identify_challenge_apps} and the Security Levels activity described in subsection \ref{subsec:security_levels_explanation}.
     
     \section{Challenges}
         \label{sec:challenges}
@@ -241,4 +241,64 @@
     This challenge only has Low, High and Impossible security levels. In the High level, the provider is not exported and has not enabled temporary permissions overall. However, temporary permissions are enabled only for the path where chats are stored. Although the rest of the data in the provider can not be accessed by other apps, the data in this path can still be accessed by any component with a temporary permission. The temporary permission is still transmitted through the implicit intent sent by the Delete activity in Whatsapp.
     
     In the Impossible level, the intent sent by the Delete activity, which contains URIs to messages and has temporary permission flags, is sent as an explicit intents. The Messages malware can not get these intents and therefore can not get permission to access the provider. If it tries to query the provider, an exception will be thrown.
+    
+    \section{Testing}
+        \label{sec:testing}
+        
+    The testing for the project was done using manual acceptance tests, which are documented in table \ref{table:tests}. These tests consist of using the apps of the project as the final user would and observing if the software behaves as expected. They check to see that the software fulfills the System Requirements. They were conducted on both a Pixel 3 emulator with Android 7.1 and a Huawei P10 Lite with Android 8.0. In table \ref{table:tests}, the tests with a number followed by a "*" are actually a set of tests, one for each challenge, but they are described as one to save space.
+    
+    We chose to do the tests manually instead of automating them due to time constraints and technical reasons. The project was being behind schedule, and writing automated systems tests would have taken time that was used to implement more features and challenges. Moreover, to test the communication between malware and vulnerable app, we would need to test if an intent sent by an app is received by a specific app. It is possible to test that an app sends certain intents \cite{testing_intents}, but we have not been able to find online any way to also test that a certain app receives the intent. Finally, the product is not complex enough to make manual testing impractical.
+    
+    \begin{center}
+        \begin{longtable}{|p{0.4cm} |p{5.2cm} |p{7.4cm} |}
+        \caption{Manual acceptance tests related to the DVM-ICC app in general.} \label{table:tests} \\
+        
+        \hline \multicolumn{1}{|c|}{\textbf{Test}} & \multicolumn{1}{c|}{\textbf{Steps}} & \multicolumn{1}{c|}{\textbf{Expected Outcome}} \\ \hline 
+        \endfirsthead
+        
+        \multicolumn{3}{c}%
+        {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+        \hline \multicolumn{1}{|c|}{\textbf{Test}} & \multicolumn{1}{c|}{\textbf{Steps}} & \multicolumn{1}{c|}{\textbf{Expected Outcome}} \\ \hline 
+        \endhead
+        
+        \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+        \endfoot
+        
+        \hline \hline
+        \endlastfoot
+        
+         \hline
+         1 & Open the app. & On the first menu, you can scroll through the Introduction and Info pages. \\
+         \hline
+         2 & Open the app and click on the Challenges button. & The Challenges page has five buttons with the following texts: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Intent Hijack and Content Provider URI Hijack. \\
+         \hline
+         3 & In any challenge, go to the Manifests page. & The Manifests page contains the correct Manifest and code snippets for every app in the project. \\
+         \hline
+         4 & In any challenge, click on the help icon. & No new activity opens and a warning appears. \\
+         \hline
+         5 & In any challenge, click on the Instructions button. & The Instructions page says that instructions are not available yet.\\
+         \hline
+         6 & In any challenge, click on the Questions button, answer the first two questions correctly then click on the Help button. & The Security Levels info activity starts, and it contains the correct explanation, full Manifest and relevant code snippets for all security levels of the selected challenge.\\
+         \hline
+         7 & In any challenge, click on the Questions button, answer the first two questions correctly then click on the Instructions button. & The Instructions page displays the correct instructions for completing that challenge.\\
+         \hline
+         8 & In any challenge, click on the Questions button, answer all but one question correctly then click on the Trophy button. & The Challenge Conclusion page opens, but tells you to complete the challenge to unlock the conclusion.\\
+         \hline
+         9 & In any challenge, click on the Questions button, answer all questions correctly then click on the Trophy button. & The Challenge Conclusion page opens and it shows an explanation and commentary for the chosen challenge.\\
+         \hline
+         10* & In all challenges, go to the Info page. & The Info page has the correct description for the attack and vulnerability of the selected challenge. \\
+         \hline
+         11* & In all challenges, click on the Questions button. & The Questions page contains two questions for identifying the vulnerable app and malware, respectively, a question for the flag of each security level, except the impossible level, of the selected challenge, and two questions for identifying the lines of code that introduce the vulnerability and attack, respectively. \\
+         \hline
+         12* & In all challenges, click on the Questions button. Type in wrong answers for all questions and click each submit button. & The submit buttons do not change. All question inputs are still enabled and their border turns red. \\
+         \hline
+         13* & In all challenges, click on the Questions button. Type in the correct answer for the selected challenge for all questions and click each submit button. & The submit buttons become outlined, their border and text is green, their text says "Completed" and they are not clickable anymore. The question inputs can not be re-edited and the correct answers can still be seen. \\
+         \hline
+         14* & In all challenges, for any security level, disable the malware and clear its log. Use the apps according the challenge's instructions. & The log of the malware is still empty, meaning that attack did not happen. \\
+         \hline
+         15* & In all challenges, for all security levels, enable the malware and clear its log. Use the apps according the challenge's instructions. & The log of the malware contains the correct flag for that security level, as well as any data stolen from the vulnerable app. There may be other expected outcomes in regards to how the malware or vulnerable app behaves, depending on the challenge and the security level.\\
+         \hline
+
+        \end{longtable}
+    \end{center}
     
