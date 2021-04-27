@@ -14,89 +14,75 @@
     
     There are three types of services: foreground services, which perform tasks that are noticeable to the user and must display a notification, background services, which do things that are not noticeable to the user, and bound services, which act as servers responding to requests made by client components \cite{services_overview}.
         
-    \textbf{Broadcast receivers} are components used to receive system wide broadcasts. These broadcasts are messages sent by the operating system or by other apps. Applications can react to various events by using broadcast receivers. For example, the system can send a broadcast to let apps know that the device’s battery is low. An app can use a receiver to listen for an event even when the app is not running. Receivers do not have a user interface but can display notifications. In addition, it is worth noting that they do not have to be declared in the manifest but can be created programmatically as well.
+    \textbf{Broadcast receivers} are components used to receive system wide broadcasts. These broadcasts are messages sent by the operating system or by other apps. Applications can react to various events by using broadcast receivers. For example, the system can send a broadcast to let apps know that the device’s battery is low. An app can use a receiver to listen for an event even when the app is not running. Receivers do not have a user interface but can display notifications. In addition, it is worth noting that they do not have to be declared in the manifest but can be created programmatically as well. 
     
     There are three types of broadcasts, two of which are relevant to our project:
-    \begin{itemize}
-        \item Normal broadcasts – These are sent to all receivers at the same time, and each receiver can react independently of other receivers.
-        \item Ordered broadcasts – These are sent to receivers one at a time. Unlike with a normal broadcast, the receiver currently processing the broadcast can change what information the broadcast contains, and can even cancel the broadcast, so that it will not be sent to further receivers \cite{broadcasts_overview}. Broadcast receivers can be registered with a certain priority for getting broadcasts.
+    \begin{itemize}[noitemsep]
+        \item \textbf{Normal broadcasts} are sent to all receivers at the same time, and each receiver can react independently of other receivers.
+        \item \textbf{Ordered broadcasts} are sent to receivers one at a time. Unlike with a normal broadcast, the receiver currently processing the broadcast can change what information the broadcast contains, and can even cancel the broadcast, so that it will not be sent to further receivers \cite{broadcasts_overview}. Broadcast receivers can be registered with a certain priority for getting broadcasts.
     \end{itemize}
         
     \textbf{Content Providers} are interfaces through which apps can access data stored in persistent storage such as a remote server, an SQL database or local file storage. A provider can be used by components of the same app or by components of other apps. Therefore, they are used by the system to manage access to shared data. Content providers can restrict access to the data to apps with certain permissions and give temporary access to certain files only \cite{android_app_fundamentals}.
     
-    The manifest of an Android app is an XML file that gives the system information about the app’s structure, capabilities and needs. All Android app components, except broadcast receivers, need to be declared in the manifest file, and for each component you can define permission requirements and the capabilities of the component \cite{android_app_fundamentals}. Moreover, the developer can say in the manifest file what hardware or software system features the app uses. For example, an app would not be installed on a device if its manifest said it required a microphone and the mobile device did not posses microphone hardware.  Components will be explained in detail later in section \ref{sec:android_components}, and permissions in section \ref{sec:permissions}.
+    The manifest of an Android app is an XML file that gives the system information about the app’s structure, capabilities and needs. All app components, except broadcast receivers, need to be declared in the manifest file, and for each component you can define permission requirements and the capabilities of the component \cite{android_app_fundamentals}. Moreover, the developer can say in the manifest file what hardware or software system features the app uses. For example, an app would not be installed on a device if its manifest said it required a microphone and the mobile device did not posses microphone hardware. Permissions are explained later in section \ref{sec:permissions}.
     
     \section{Permissions}
         \label{sec:permissions}
         
     Android follows the principle of least privilege. This principle is enforced through a system of permissions, meaning that an application can only access sensitive data, system features or components of other applications if it possesses the necessary requirements \cite{permissions_guide}. For instance, an application needs the correct permission to access the user’s contacts. 
-        
-    There are four types of permissions, three of which are relevant to this project:
     
-    \begin{itemize}
-        \item Normal permissions – Permissions for unimportant resources, such as the permission to set the time zone \cite{permissions_guide}. They are granted automatically at install time.
-        \item Dangerous permissions – They are for important resources such as private user information, or that can affect the state of the system or of other apps. The user needs to give explicit permission in the app to utilise these resources.
-        \item Signature permissions – These are special permissions designed for use among a group of apps created by the same developer. An app is automatically granted a signature permission at install time only if it is signed by the same certificate as the app that defined the permission. The certificate can be self-signed by the developer. Its purpose is to identify the author of an app \cite{define_custom_permission}.
+    There are four types of permissions, based on their protection level, three of which are relevant to this project:
+    \begin{itemize} [noitemsep]
+        \item \textbf{Normal permissions} are for unimportant resources, such as the permission to set the time zone \cite{permissions_guide}. They are granted automatically at install time.
+        \item \textbf{Dangerous permissions} are for important resources such as private user information, or that can affect the state of the system or of other apps. The user needs to give explicit permission in the app to utilise these resources.
+        \item \textbf{Signature permissions} are special permissions designed for use among a group of apps created by the same developer. An app is automatically granted a signature permission at install time only if it is signed by the same certificate as the app that defined the permission. The certificate can be self-signed by the developer. Its purpose is to identify the author of an app \cite{define_custom_permission}.
     \end{itemize}
     
     Moreover, developers can protect a component of an app with permission requirements by adding an \lstinline|android:permission| tag in the manifest file. Only components in apps that have that permission will be able to send an intent to the protected component.
         
     Applications can declare their own permissions. These can be used to restrict access to components of an application, or protect broadcasts of that app. This is done by declaring a permission in the manifest file of the app, as you can see in listing \ref{lst:custom_permission}.
     
-    \lstinputlisting[language={xml}, label={lst:custom_permission}, caption={A declaration of a custom permission in an Android manifest.}]{./listings/custom_permission.xml}
+    \lstinputlisting[language={xml}, label={lst:custom_permission}, caption={A declaration of a custom permission in the manifest of the News Aggregator app of this project.}]{./listings/custom_permission.xml}
     
     \section{Inter Component Communication}
         \label{sec:inter_component_communication}
     
-    By default, each Android application runs in its own sandbox, and can not see what other applications are doing \cite{android_app_fundamentals}. Sometimes, we need the system to communicate with the apps, and applications can enrich the users experience by collaborating. Moreover, an application component can be used by other apps to provide extra functionality. For example, a browser lets you select which social media or messaging app to use for sharing a link.
+    By default, each Android application runs in its own sandbox, and can not see what other applications are doing \cite{android_app_fundamentals}. Sometimes, we need the system to communicate with the apps, and applications can enrich the user's experience by collaborating. For example, a browser lets you select which social media or messaging app to use for sharing a link.
     
-    Intents are a class in the Android API that are used as messages for communication between application components. More specifically, intents are used to start new activities, start and stop services, bind or unbind a component to a service, and they also represent the broadcasts that are sent to receivers. Intents can carry data in the form of a URI, as well as other data in the form of key value pairs \cite{intents}.
-    
-    \subsection{Exported Components}
-        \label{subsec:exported_components}
+    Intents are a class in the Android API that are used as messages for communication between application components. Intents are used to start new activities, start and stop services, bind or unbind a component to a service, and they also represent the broadcasts that are sent to receivers. Intents can carry data in the form of a URI, as well as other data in the form of key value pairs \cite{intents}.
         
-    By default, app components are not accessible to outside apps through intents. However, a component can be exported and thus receive intents from other applications. To export a component, you can set the \lstinline|<exported>| tag in a component in the app’s manifest to true. However, if the component has an intent filter defined in the manifest, the component will become automatically exported unless the exported tag is explicitly set to false. Intent Filters will be fully explained in section 3.5.3.
+    By default, app components are not accessible to outside apps through intents. However, \textbf{exported components} can receive intents from other applications. To export a component, you can set the \lstinline|<exported>| tag in a component in the app’s manifest to true. However, if the component has an intent filter defined in the manifest, the component will become automatically exported unless the exported tag is explicitly set to false. Intent Filters will be fully explained in subsection \ref{subsec:implicit_intents}.
     
     \subsection{Explicit Intents}
         \label{subsec:explicit_intents}
         
-    Explicit intents directly specify the application that should receive the intent and handle it. This is done by setting either the package name of the receiving application, or the full name of a component of said app \cite{intents_and_intent_filters}. Explicit intents can contain other information, such as data or the intended action to be performed, as you can see in Listing \ref{lst:explicit_intent}.
+    Explicit intents directly specify the application that should receive the intent and handle it. This is done by setting the package name of the receiving app or the full name of a component of said app \cite{intents_and_intent_filters}. In Listing \ref{lst:explicit_intent}, you can see an explicit intent sent from the Santander app of this project to an activity of the same app. The intent also contains data in the form of a URI.
     
-    \lstinputlisting[language={java}, label={lst:explicit_intent}, caption={Kotlin code to make an explicit intent, add data to it and start an activity with it}]{./listings/explicit_intent.kt}
+    \lstinputlisting[language={java}, label={lst:explicit_intent}, caption={Kotlin code from the Santander app to make an explicit intent, add data to it and start an activity with it}]{./listings/explicit_intent.kt}
     
-    Using an explicit intent means that only the targeted app or component can receive the intent. Explicit intents are usually used for communication between components of the same app, such as when one activity starts another when the user clicks a button. That being said, explicit intents can be used to start components of other apps as well. As explained in subsection \ref{subsec:exported_components}, an app component must be exported so that other apps can send explicit intents to it.
+    With an explitivt intent, only the targeted component can receive the intent. Explicit intents are usually used for communication between components of the same app, such as when one activity starts another when the user clicks a button. That being said, explicit intents can be used to start components of other apps as well, if those components are exported.
     
-    \subsection{Implicit Intents}
+    \subsection{Implicit Intents and Intent Filters}
         \label{subsec:implicit_intents}
         
-    Unlike explicit intents, implicit intents do not directly specify what application or component it should be sent to. Instead, the Android system decides who to send it to based on the information in the intent and what other components have declared they can handle.
+    Unlike explicit intents, implicit intents do not directly specify what application or component it should be sent to. Instead, the Android system decides who to send it to based on the information in the intent and what other components have declared they can handle. You can see in Listing \ref{lst:implicit_intent} that the implicit intent does not specify a specific component, but specifies an action and category instead
     
-    A component defines what intents it can handle by specifying Intent Filters in the manifest file, with an example in Listing \ref{lst:intent_filter}. An Intent Filter defines the type of intents an application can handle. A filter can say what actions the component can perform, what intent categories it accepts, the MIME data types it accepts or the kind of URI resources it can handle. A component may declare multiple Intent Filters, and it is recommended that this is done for each task the component can do \cite{intents_and_intent_filters}.
+    A component defines what intents it can handle by specifying Intent Filters in the manifest file. An Intent Filter defines the type of intents an application can handle. A filter can say what actions the component can perform, what intent categories it accepts, the MIME data types it accepts or the kind of URI resources it can handle. You can see an example of this Listing \ref{lst:intent_filter}. A component may declare multiple Intent Filters, and it is recommended that this is done for each task the component can do \cite{intents_and_intent_filters}.
     
-    \lstinputlisting[language={xml}, label={lst:intent_filter}, caption={Declaration of an intent filter that the intent in Listing \ref{lst:implicit_intent} will match.}]{./listings/intent_filter.xml}
+    \lstinputlisting[language={xml}, label={lst:intent_filter}, caption={Declaration of an activity in the Santander app with an intent filter that the intent in Listing \ref{lst:implicit_intent} will match.}]{./listings/intent_filter.xml}
     
-    When an implicit intent is sent, like you can see in Listing \ref{lst:implicit_intent}, the Android System compares its attributes against all intent filters of all components. For the intent to be matched with a filter, three tests are performed: the Action test, the Category test, and the Data test \cite{intents_and_intent_filters}. In order to pass the Action test, the Intent’s action must be amongst the actions of the filter. It passes the Category Test if all of its categories are found in the filter’s declaration, and the Data Test is passed if the data URI or MIME type of the intent matches one of the data elements in the filter. If the component has multiple filters, the intent only needs to match one of them for it to be passed to the component.
+    \lstinputlisting[language={java}, label={lst:implicit_intent}, caption={Kotlin code from the Santander app of this project to make an implicit intent, add data to it and start an activity with it.}]{./listings/implicit_intent.kt}
     
-    \lstinputlisting[language={java}, label={lst:implicit_intent}, caption={Kotlin code to make an implicit intent, add data to it and start an activity with it}]{./listings/implicit_intent.kt}
+    When an implicit intent is sent, the Android System compares its attributes against all intent filters of all components. For the intent to be matched with a filter, three tests are performed: the Action, Category test, and Data tests \cite{intents_and_intent_filters}. To pass the Action test, the Intent’s action must be amongst the actions of the filter. It passes the Category Test if all of its categories are found in the filter’s declaration, and the Data Test is passed if the data URI or MIME type matches one of the data elements in the filter. If the component has multiple filters, the intent only needs to match one for the component to receive it.
     
-    If only one intent filter matches the implicit intent, the operating system will start that filter’s component automatically. However, if there are multiple matches, a dialog will be displayed to the user so they can manually select the component to handle the intent.
-    
-    For example, if there are multiple browsers installed on a device, and within an app the user clicks on a web link, they will then see an Android dialog letting them choose what browser to use to open that page. This is because the parent app sent an implicit intent, and all browsers had filters that matched with the intent.
+    If only one intent filter matches the implicit intent, Android will start that filter’s component automatically. However, if there are multiple activities that match, a dialog will be displayed to the user so they can manually select the component to handle the intent. For example, if the user clicks on a web link in an app, they might then see an Android dialog for choosing what browser to use to open that page.
     
     \section{Inter Component Communication Vulnerabilities and Attacks}
         \label{sec:icc_vulnerabilities_and_attacks}
         
-    In this section, we will explain the two major types in cyber attacks concerning Inter Component Communication. Most of the vulnerabilities that will be explored in this project happen due to the misuse of implicit intents or intent filters.
-    
-    \subsection{Intent Hijack}
-        \label{subsec:intent_hijack}
+    In this section, we will explain the two major types in cyber attacks concerning Inter Component Communication: \textbf{Intent Hijacking} and \textbf{Intent Spoofing}.
         
-    The Android documentation recommends that explicit intents are used for intra-app communication, and implicit intents for inter-application communication \cite{intents_and_intent_filters}. However, developers sometimes use implicit intents to start a component within the same app. An attacker can make a component in the malware with an intent filter designed to match with said implicit intents, which may direct the intent to the malicious application. The process in which an intent is matched against a filter was described in section \ref{subsec:implicit_intents}. When receiving an intent, the component can read all of its data. Therefore, even if the implicit intent is meant for external use, if the developer puts sensitive information in it, that data could be intercepted.
+    The Android documentation recommends that explicit intents are used for intra-app communication, and implicit intents for inter-application communication \cite{intents_and_intent_filters}. However, developers sometimes use implicit intents to start a component within the same app. An attacker can make a component in the malware with an intent filter designed to match with said implicit intents, which may direct the intent to the malware. The process in which an intent is matched against a filter is described in section \ref{subsec:implicit_intents}. When receiving an intent, the component can read all of its data. Therefore, even if the implicit intent is meant for external use, if it has sensitive information in it, that data could be intercepted. In general, vulnerabilities Intent Hijacking attacks are fixed by using explicit intents instead of implicit intents to send broadcasts, start activities or services \cite{2010_icc_paper}. Another way to mitigate these attacks is to not put sensitive information in implicit intents.
     
-    In general, vulnerabilities against this class of attacks are fixed by using explicit intents instead of implicit intents in order to send broadcasts, start activities or services \cite{2010_icc_paper}. Another way to mitigate these attacks is to not put sensitive information in implicit intents.
-    
-    \subsection{Intent Spoofing}
-        \label{subsec:intent_spoofing}
-        
-    While Intent Hijack attacks work by accidentally activating a malicious component when an intent is intercepted, Intent Spoofing attacks happen when a victim component is unexpectedly activated by an attacking component using an intent. Often, this attack targets components that are not meant to be accessible outside of their apps, but because they have an intent filter and the \lstinline|<exported>| tag in the manifest is not set, they are exported automatically. Because exported components are accessible to other apps, the attacker can start them with an explicit intent. This class of attacks was originally going to be covered by this project, as mentioned in the Initial Document, but due to time constraints we have not managed to implement any challenges with Intent Spoofing attacks.
+    While Intent Hijacking attacks work by accidentally sending an intent to malware, Intent Spoofing attacks happen when an exported victim component is unexpectedly activated by an attacking component using an intent. Often, this attack targets components that are not meant to be accessible outside of their apps, but because they have an intent filter and the \lstinline|<exported>| tag in the manifest is not set, they are exported automatically. Because exported components are accessible to other apps, the attacker can start them with an explicit intent. This class of attacks was originally going to be covered by this project, as mentioned in the Initial Document, but due to time constraints we have not managed to implement any challenges with Intent Spoofing attacks. We still plan to do it in the future.
     

@@ -1,5 +1,5 @@
 <permission 
-	android:name="uk.ac.swansea.alexandru.icc_education.permission.BANKING_ACTIVITY" 
-	android:label="@string/lab _bankingActivity" 
-	android:description="@string/desc_bankingActivity" 
-	android:protectionLevel="dangerous" />
+	android:name="uk.ac.swansea.dascalu.dvmicc.newsaggregator.permissions.READ_NEWS_B"
+	android:label="@string/readNewsBPermissionLabel"
+	android:description="@string/readNewsBPermissionDescription"
+	android:protectionLevel="dangerous"/>

@@ -1,8 +1,7 @@
 \chapter{Implementation}
     \label{chap:implementation}
 
-\todo{careful with app names, I would suggest not using names of real apps. I also still think it would be good to show code snippets as part of your discussions in this section. Especially if you can e.g. highlight the differences between levels}
-   This chapter will explain my implementation for this project. It will first give an overview of the architecture of the software product. After that, we will present each one of the challenges that have been implemented so far.
+   This chapter will explain my implementation for this project. It will first give an overview of the architecture of the software product. Following that, we will show the System Requirements, explore the DVM-ICC app and then explain each challenge. Finally, we will document how testing for the project was done.
 
     \section{Architecture} 
         \label{sec:architecture}
@@ -13,6 +12,47 @@
     
     The DVM-ICC app communicates with the challenge apps through the use of files in order to apply various settings to control the behaviour of the apps. These settings are explained in subsection \ref{subsec:challenge_settings}. Moreover, each pair of vulnerable and malicious apps communicate between each other as a result of the cyber attack, through the medium of Intents. The manner in which this communication takes place will be explained in detail for each challenge in section \ref{sec:challenges}.
     
+    \section{System Requirements}
+    \label{sec:requirements}
+
+    \begin{center}
+        \begin{longtable}{|p{0.4cm} |p{5.7cm} |p{6.9cm} |}
+        \caption{Functional System Requirements for the project.} \label{table:requirements} \\
+        
+        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
+        \endfirsthead
+        
+        \multicolumn{3}{c}%
+        {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
+        \endhead
+        
+        \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+        \endfoot
+        
+        \hline \hline
+        \endlastfoot
+        
+         \hline
+         1 & The product provides detailed explanation of the technical background needed to understand the vulnerabilities of each challenge. & The DVM-ICC app displays detailed descriptions of Android components, permissions, Inter Component Communication and of each individual attack and vulnerability. \\
+         \hline
+         2 & The custom Android image shall allow the user to perform the following cyber-attacks in the form of challenges: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Hijack and Content Provider URI Hijack. & There is a vulnerable app and malware for each named challenge, and the malware can successfully attack the former. The DVM-ICC app provides guidance for identifying these apps and using them. \\
+         \hline
+         3 & The first task of the challenge is for the user to identify the vulnerable app and malware. & The user can view in the DVM-ICC app the manifest and intent sending code snippets for every app of the project. Based on these, they shall be able to recognise the pair of apps for each challenge and submit their answers in the DVM-ICC app. \\
+         \hline
+         4 & Each challenge mentioned in requirement 2 has between two and five security levels. These levels show different ways to protect an app against the attack of that challenge, each being increasingly more secure. & The user can select between 2 and five levels for each challenge. Depending on the level, the vulnerable app will use code that is less secure or more secure. The malware will be able to attack the app in all levels, except the last level, the Impossible level. \\
+         \hline
+         5 & The user can view information about the security levels of each challenge. & After completing the task from requirement 3, the user can view in an activity detailed descriptions for how each security level is different, along with relevant code snippets of the vulnerable app. \\
+         \hline
+         6 & As the second task of every challenge mentioned in 2, the user shall be able to see the result of the cyber attack. & For all security levels in the challenge, except the Impossible level, the user can view any data stolen from the vulnerable app and a flag in the malware, or observe the effects of the attack. Each level has a unique string flag, which the user needs to find and submit in the DVM-ICC app. \\
+         \hline
+         7 & The product will have a mode for experienced users. & The user can switch to and from the "Experienced" mode, which hides all information that would help the user and only displays code snippets. \\
+         \hline
+         8 & The product will have a Make Own Malware mode. & In this mode, the malware is disabled, and the user only sees an explanation of the vulnerability and attack. \\
+         \hline
+        \end{longtable}
+    \end{center}
+    
     \section{DVM-ICC Application}
         \label{sec:home_app}
         
@@ -21,14 +61,14 @@
     \subsection{Home Menu}
         \label{subsec:home_menu}
         
-    \begin{wrapfigure}[15]{r}{0.3\textwidth}
+    The first screen the user sees when starting the app has 3 sub-pages: Introduction, Info and Challenges, as you can see in figure \ref{fig:home_menu}. The Introduction page gives an introduction of the project and explains the intended workflow for using the product. The Info page provides all of the necessary technical background to understand ICC vulnerabilities and attacks. It covers what components and permissions are, how components communicate between each other and how Intent Hijacking attacks operate. The Challenges page lets the user select what challenge they want to start, as shown in figure \ref{fig:home_menu}.
+    
+    \begin{wrapfigure}[16]{r}{0.3\textwidth}
         \centering
         \includegraphics[width=0.3\textwidth]{graphics/home_activity.PNG}
         \caption{The first menu in the DVM-ICC app.}
         \label{fig:home_menu}
     \end{wrapfigure}
-        
-    The first screen the user sees when starting the app has 3 sub-pages: Introduction, Info and Challenges, as you can see in figure \ref{fig:home_menu}. The Introduction page gives an introduction of the project and explains the intended workflow for using the product. The Info page provides all of the necessary technical background to understand ICC vulnerabilities and attacks. It covers what components and permissions are, how components communicate between each other and the major types of ICC based attacks: Intent Hijacking and Intent Spoofing. The Challenges page lets the user select what challenge they want to start, as shown in figure \ref{fig:home_menu}.
     
     \subsection{Challenge Settings}
         \label{subsec:challenge_settings}
@@ -37,20 +77,19 @@
     
     The most important setting on this screen is the security level of the vulnerable app. Inspired from DVWA, as described in subsection \ref{subsec:ICC_related_work}, these levels define how secure the vulnerable app is against attacks from the malware. Each challenge's vulnerable app has between 2 and 5 security levels, with each successive level using more secure code. This culminates with the Impossible level, where the vulnerability is fixed and the malware can not perform the attack. When the malware is enabled, it will overcome the defences of the current security level, except for the Impossible level. The number of security levels and their meaning depends on the challenge. In general, each security level means that a component or broadcast is protected with a more powerful permission, that components are no longer exported or that an intent is now sent explicitly. 
     
-    These settings are written to a text file that is located in the DVM-ICC's app specific directory on the device's external storage, from where it can be accessed by any other app, including the other apps that are part of this project. The security level setting will dynamically change the behaviour of the vulnerable and malicious apps, and the user does not need to restart them, with some
-    exceptions. The challenge settings can be changed at any time while doing a challenge.
+    These settings are written to a text file that is located in the DVM-ICC's app specific directory on the device's external storage, from where it can be accessed by any other app, including the other apps that are part of this project. The security level setting will dynamically change the behaviour of the vulnerable and malicious apps, and the user does not need to restart them, with some exceptions. The settings can be changed at any time while doing a challenge.
     
     \subsection{Identifying the malware and the vulnerable app}
         \label{subsec:identify_challenge_apps}
         
+    Once the user applies the settings described in subsection \ref{subsec:challenge_settings}, the application starts the Challenge activity, which you can see in figure \ref{fig:manifests_fragment}. The first task of every challenge is to identify the pair of vulnerable and malicious apps for that challenge from amongst all of the apps that are part of the project, except the DVM-ICC app itself. 
+    
     \begin{wrapfigure}[19]{r}{0.4\textwidth}
         \centering
         \includegraphics[width=0.4\textwidth]{graphics/manifests.PNG}
         \caption{The Manifests page in the Challenge activity.}
         \label{fig:manifests_fragment}
     \end{wrapfigure}
-        
-    Once the user applies the settings described in subsection \ref{subsec:challenge_settings}, the application starts the Challenge activity, which you can see in figure \ref{fig:manifests_fragment}. The first task of every challenge is to identify the pair of vulnerable and malicious apps for that challenge from amongst all of the apps that are part of the project, except the DVM-ICC app itself. 
     
     The Info page gives a technical description of one of the two major attack categories, Intent Hijacking or Intent Spoofing, followed by a detailed description of the specific cyber attack related to this challenge. After reading and understanding this information, the user needs to go the Manifests page, where they can view for each app the contents of its manifest and all snippets of code that sends intents, as shown in figure \ref{fig:manifests_fragment}. Based on the technical background the user was given in the Info page and in the Home Menu from subsection \ref{subsec:home_menu}, they need to look through the code in the Manifests page and try to identify the vulnerable app and the malware for this challenge. 
     
@@ -63,16 +102,16 @@
         
     Now that the user knows the correct pair of apps for this challenge, the next task of the challenge is to use these apps to witness the cyber-attack take place.
     
+    Once you have correctly answered the questions regarding the identity of the malware and vulnerable app, the Instructions page will display detailed instructions for using the apps such that the specific cyber-attack for that challenge will take place. This page can be accessed from the activity shown in figure \ref{fig:manifests_fragment}.
+    
+    In general, the user is asked to take a look at the two apps to familiarise themselves with them and what they can do. Then, the user should make sure that the security level is set to low. After that, they should use the vulnerable app and malware according to the provided instructions in order to trigger the attack and observe it. 
+    
     \begin{wrapfigure}[20]{r}{0.4\textwidth}
         \centering
         \includegraphics[width=0.4\textwidth]{graphics/log.PNG}
         \caption{Log of the malware for Content Provider URI Hijack after it successfully attacked the vulnerable app.}
         \label{fig:malware_log}
     \end{wrapfigure}
-    
-    Once you have correctly answered the questions regarding the identity of the malware and vulnerable app, the Instructions page will display detailed instructions for using the apps such that the specific cyber-attack for that challenge will take place. This page can be accessed from the activity shown in figure \ref{fig:manifests_fragment}.
-    
-    In general, the user is asked to take a look at the two apps to familiarise themselves with them and what they can do. Then, the user should make sure that the security level is set to low. After that, they should use the vulnerable app and malware according to the provided instructions in order to trigger the attack and observe it. 
     
     Following that, the user needs to go the malware and look in its Log, which is accessed from its app bar. If the attack was successful, the malware should have written in its log the flag associated with this specific challenge and security level, along with any relevant data it managed to steal from the vulnerable app. These would be hidden amongst the output of Android Log. 
     
@@ -85,16 +124,16 @@
     \subsection{Security Levels Explanation}
         \label{subsec:security_levels_explanation}
         
+    While completing the task described in subsection \ref{subsec:perform_attack}, the user can click on the Help button that you can see at the top right in figure \ref{fig:manifests_fragment} to view an explanation of the security levels for the current challenge. This view is hidden until the user has identified the pair of apps for the current challenge, as explained in subsection \ref{subsec:identify_challenge_apps}.
+    
+    For each level, it will explain how it works and how it is more secure than the previous level. Following this explanation is a view of the full manifest of the vulnerable app, as it would be used for that security level. Finally, this view might show code snippets that introduce a vulnerability through the way they send an intent.
+    
     \begin{wrapfigure}[22]{r}{0.45\textwidth}
         \centering
         \includegraphics[width=0.45\textwidth]{graphics/security_level_explanation.PNG}
         \caption{Part of the explanation of the security levels for the Broadcast Theft Challenge.}
         \label{fig:security_levels}
     \end{wrapfigure}
-        
-    While completing the task described in subsection \ref{subsec:perform_attack}, the user can click on the Help button that you can see at the top right in figure \ref{fig:manifests_fragment} to view an explanation of the security levels for the current challenge. This view is hidden until the user has identified the pair of apps for the current challenge, as explained in subsection \ref{subsec:identify_challenge_apps}.
-    
-    For each level, it will explain how it works and how it is more secure than the previous level. Following this explanation is a view of the full manifest of the vulnerable app, as it would be used for that security level. Finally, this view might show code snippets that introduce a vulnerability through the way they send an intent.
         
     You can see part of the Security Levels explanation for the Broadcast Theft challenge in figure \ref{fig:security_levels}, as an example. The top code snippet shows the code used to send a broadcast in the News Aggregator app in the medium security level. Since this code send the broadcast implicitly, it is insecure.
     
@@ -112,7 +151,7 @@
     \subsection{Operation Modes}
         \label{subsec:challenge_modes}
     
-    As mentioned at the beginning of section \ref{sec:home_app}, the DVM-ICC application supports three modes. The Beginner mode has already been described in sub\cref{subsec:home_menu,subsec:challenge_settings,subsec:identify_challenge_apps,subsec:perform_attack,subsec:security_levels_explanation,subsec:challenge_conclusion}. It is meant for less experienced users, who need to be given detailed explanations to understand the vulnerabilities of each challenge.
+    As mentioned at the beginning of section \ref{sec:home_app}, the DVM-ICC application supports three modes. The Beginner mode has already been described in sub\cref{subsec:home_menu,subsec:challenge_settings,subsec:identify_challenge_apps,subsec:perform_attack,subsec:security_levels_explanation,subsec:challenge_conclusion}. It is meant for less experienced users, who need to be given detailed explanations for each vulnerability.
     
     The Expert Mode works in the same way as the Beginner mode, but it hides a lot of information from the user to increase the difficulty. In the Challenge activity from figure \ref{fig:manifests_fragment} on page \pageref{fig:manifests_fragment}, the Info page will be hidden, and the Security Levels Explanation activity from figure \ref{fig:security_levels} will only contain code snippets, without any explanations.
     
@@ -121,7 +160,7 @@
     \section{Challenges}
         \label{sec:challenges}
         
-    Section \ref{sec:home_app} covered the general workflow for using the software of this project, which applies to challenges. In this section, we will focus on the vulnerability explored by each challenge and the pair of malware and vulnerable app that demonstrate it. The first five challenges involve variations of the Intent Hijack attack presented in subsection \ref{subsec:intent_hijack}, while the sixth is a variation of the Intent Spoofing attack explained in subsection \ref{subsec:intent_spoofing}.
+    Section \ref{sec:home_app} covered the general workflow for using the software of this project, which applies to challenges. In this section, we will focus on the vulnerability explored by each challenge and the pair of malware and vulnerable app that demonstrate it. All five challenges involve variations of the Intent Hijacking attack presented in subsection \ref{sec:icc_vulnerabilities_and_attacks}.
     
     For all challenges presented here, the description in the Implementation subsection of each challenge describes the interaction between malware and vulnerable app when the security level is set to Low. The other security levels are presented in the Security Levels subsection of each challenge.
     
@@ -135,9 +174,7 @@
     \subsubsection{Implementation}
         \label{subsubsec:broadcast_theft_implementation}
         
-    The vulnerable app for this challenge is News Aggregator, an application that looks for online news articles from various sources and shows them to the user. When its background service has downloaded the news articles, it will send a broadcast with the JSON data, which will be received by a broadcast receiver in the app. This receiver will process the data and update the UI. The broadcast is sent as an implicit intent, and any receiver with an intent filter that includes the action string of the broadcast will get it.
-    
-    In a real world application, developers might want to use an implicit broadcast for intra-app communication in order to make the application more loosely coupled, and thus more modular and flexible. Another reason might be that you want other apps made by you to know when the News Aggregator has gotten some articles.
+    The vulnerable app for this challenge is News Aggregator, an application that looks for online news articles from various sources and shows them to the user. When its background service has downloaded the news articles, it will send a broadcast with the JSON data, which will be received by a broadcast receiver in the app. This receiver will process the data and update the UI. The broadcast is sent as an implicit intent, and any receiver with an intent filter that includes the action string of the broadcast will get it. In a real world app, developers might use an implicit broadcast for intra-app communication to make the app more loosely coupled and more modular. Another reason might be that they want other apps made by them to know when News Aggregator has gotten some articles.
 
     The malware for this challenge is the Call Logger app, which displays the user's call history. In it, the attacker has added a broadcast receiver with an intent filter that is identical to that of News Aggregator's receiver. If Call Logger and News Aggregator are installed on the same device, the broadcast sent by News Aggregator will be received by both its receiver and the malware's receiver. Call Logger can therefore see what news articles a user is looking at and what they might be interested in.
     
@@ -200,16 +237,16 @@
     \subsubsection{Implementation}
         \label{subsubsec:activity_hijack_implementation}
         
-    \begin{wrapfigure}[19]{r}{0.35\textwidth}
+    The vulnerable app for this challenge is Santander, a banking app. After they log in, the user can view details of fictitious bank accounts and can make fictional payments to another account, which will decrease the balance one of the accounts displayed in the app.
+    
+    Santander has an intent filter for its Login activity so that the user can click on special link that starts the bank app to make a payment. The link contains details of the recipient of the payment, such that these details are already filled in when the app launches and therefore making the payment easier. An implicit intent with this link can be sent from another app. It will match Santander's intent filter and start the Login activity to authenticate the user, before going to the payment screen.
+    
+    \begin{wrapfigure}[18]{r}{0.35\textwidth}
         \centering
         \includegraphics[width=0.35\textwidth]{graphics/activity_hijack.PNG}
         \caption{Choosing between activity of vulnerable app and malware.}
         \label{fig:activity_hijack}
     \end{wrapfigure}
-        
-    The vulnerable app for this challenge is Santander, a banking app. After they log in, the user can view details of fictitious bank accounts and can make fictional payments to another account, which will decrease the balance one of the accounts displayed in the app.
-    
-    Santander has an intent filter for its Login activity so that the user can click on special link that starts the bank app to make a payment. The link contains details of the recipient of the payment, such that these details are already filled in when the app launches and therefore making the payment easier. An implicit intent with this link can be sent from another app. It will match Santander's intent filter and start the Login activity to authenticate the user, before going to the payment screen.
 
     The attacker decompiled the Santander app to see the code for the Login activity and its intent filter. They made an activity in the Money Manager malware that looks identical to the one in Santander, and added to it an intent filter. Money Manager is an app for tracking and categorising one's income and expenses, but it does not have full functionality.
     
@@ -242,47 +279,6 @@
     This challenge only has Low, High and Impossible security levels. In the High level, the provider is not exported and has not enabled temporary permissions overall. However, temporary permissions are enabled only for the path where chats are stored. Although the rest of the data in the provider can not be accessed by other apps, the data in this path can still be accessed by any component with a temporary permission. The temporary permission is still transmitted through the implicit intent sent by the Delete activity in Whatsapp.
     
     In the Impossible level, the intent sent by the Delete activity, which contains URIs to messages and has temporary permission flags, is sent as an explicit intents. The Messages malware can not get these intents and therefore can not get permission to access the provider. If it tries to query the provider, an exception will be thrown.
-    
-    \section{System Requirements}
-        \label{sec:requirements}
-
-    \begin{center}
-        \begin{longtable}{|p{0.4cm} |p{5.7cm} |p{6.9cm} |}
-        \caption{Functional System Requirements for the project.} \label{table:requirements} \\
-        
-        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
-        \endfirsthead
-        
-        \multicolumn{3}{c}%
-        {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
-        \hline \multicolumn{1}{|c|}{\textbf{No}} & \multicolumn{1}{c|}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Fit Criteria}} \\ \hline 
-        \endhead
-        
-        \hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
-        \endfoot
-        
-        \hline \hline
-        \endlastfoot
-        
-         \hline
-         1 & The product provides detailed explanation of the technical background needed to understand the vulnerabilities of each challenge. & The DVM-ICC app displays detailed descriptions of Android components, permissions, Inter Component Communication and of each individual attack and vulnerability. \\
-         \hline
-         2 & The custom Android image shall allow the user to perform the following cyber-attacks in the form of challenges: Broadcast Theft, Broadcast Theft - DOS, Broadcast Theft - MITM, Activity Hijack and Content Provider URI Hijack. & There is a vulnerable app and malware for each named challenge, and the malware can successfully attack the former. The DVM-ICC app provides guidance for identifying these apps and using them. \\
-         \hline
-         3 & The first task of the challenge is for the user to identify the vulnerable app and malware. & The user can view in the DVM-ICC app the manifest and intent sending code snippets for every app of the project. Based on these, they shall be able to recognise the pair of apps for each challenge and submit their answers in the DVM-ICC app. \\
-         \hline
-         4 & Each challenge mentioned in requirement 2 has between two and five security levels. These levels show different ways to protect an app against the attack of that challenge, each being increasingly more secure. & The user can select between 2 and five levels for each challenge. Depending on the level, the vulnerable app will use code that is less secure or more secure. The malware will be able to attack the app in all levels, except the last level, the Impossible level. \\
-         \hline
-         5 & The user can view information about the security levels of each challenge. & After completing the task from requirement 3, the user can view in an activity detailed descriptions for how each security level is different, along with relevant code snippets of the vulnerable app. \\
-         \hline
-         6 & As the second task of every challenge mentioned in 2, the user shall be able to see the result of the cyber attack. & For all security levels in the challenge, except the Impossible level, the user can view any data stolen from the vulnerable app and a flag in the malware, or observe the effects of the attack. Each level has a unique string flag, which the user needs to find and submit in the DVM-ICC app. \\
-         \hline
-         7 & The product will have a mode for experienced users. & The user can switch to and from the "Experienced" mode, which hides all information that would help the user and only displays code snippets. \\
-         \hline
-         8 & The product will have a Make Own Malware mode. & In this mode, the malware is disabled, and the user only sees an explanation of the vulnerability and attack. \\
-         \hline
-        \end{longtable}
-    \end{center}
     
     \section{Testing}
         \label{sec:testing}
@@ -345,4 +341,3 @@
 
         \end{longtable}
     \end{center}
-    
