@@ -3,7 +3,6 @@
 % eat into the space for your page content. 
 \documentclass[11pt, a4paper, twoside, openany]{custard}
 
-\usepackage{todonotes}
 \usepackage[normalem]{ulem}
 
 % All imports, packages, and configuration in here. 
@@ -40,7 +39,7 @@
 	\begin{vplace}[0.7]
 		\begin{large}
 			\begin{center}
-				\textit{I would like to dedicate this work to the Hypnotoad.\\All glory to the Hypnotoad.}
+				\textit{I would like to dedicate this work to my family, for raising me and supporting me to be where I am now.}
 			\end{center}
 		\end{large}
 	\end{vplace}
@@ -50,11 +49,13 @@
 		\vspace{-2em}
 		\setcounter{page}{1}
 		
-		In your abstract you should aim to summarize the core contributions of your work in the context of the problem domain. Start by outlining the domain and the problems posed within it. Discuss how the methods you focus on approach the relevant problems. You should end your abstract by concretely stating the tangible outputs and deliverables you have created in order to complete your work on this document, and whether those outputs represent and improvement or alternative approach to existing methods. 
+		In the modern world, mobile devices have surpassed laptops and desktops in importance for many people. A negative effect of this is that mobile apps have become attractive targets for attackers. Cyber security is weak in many applications. Therefore, some have developed intentionally insecure apps which teach developers about vulnerabilities so that they can make their software more secure. One class of vulnerabilities that is both dangerous and is not focused on by these projects is related to Android Inter Component Communication.
 		
-		Your abstract should be a couple or so paragraphs long, and roughly approximate the order and flow you then use for structuring the main document. If a viewer has read your abstract then they should already understand at a high level what it is you have created and delivered, and whether it is better than or comparable to existing methods. If your project is driven by a research hypothesis then the reader should know what that is at a high level from this section. Reading on, little should surprise the viewer.
+		Components are the building blocks of Android apps, and they can communicate with each other through objects of the Intent class. Due to the current implementation of Inter Component Communication in Android, malware can control or spy on a vulnerable app. Many of the existing Android intentionally insecure apps only partially focus on this type of vulnerability, do not offer real and authentic examples of malicious and vulnerable apps, and may even require the user to use command-line tools to perform an attack.
 		
-		For paper submission of your thesis you should physically sign your name on each of the above declaration statements and date them in black ink. For digital submissions you should sign and date them digitally using a touch or stylus input if available. There are pieces of software that allow you to write directly on PDF documents, or alternatively you can bring a signature into your document as a figure with a transparent or white background. If you do not have a stylus input / tablet like device you should ask your supervisor, as many in the department do their grading / work on digital tablets.
+		We have developed the DVM-ICC app, which is an educational tool for exploring in detail various types of ICC vulnerabilities. It contains educational content, provides interactivity, and allows the user to perform and observe cyber attacks in the form of challenges. We also created a suite of apps, with each acting either as a vulnerable or as a malicious app in a challenge. The user can see an example of malware attacking a vulnerable app and can complete the challenges on their mobile device.
+		
+		The insecure suite of Android apps we created fulfills its aim of educating users about ICC vulnerabilities and raising awareness, as demonstrated by two structured interviews I conducted. It is a polished piece of work that provides real examples of vulnerable and malicious apps, is very interactive, focuses exclusively on ICC vulnerabilities and attacks, provides plenty of guidance, and can be used on a device, without a computer. Thus, it improves in key areas that are lacking in other projects of this type.
 	\end{abstract}
 	
 % A long form dedication. 
@@ -89,9 +90,6 @@
 	\input{./chapter/thesis_background}
 	\input{./chapter/thesis_implementation}
 	\input{./chapter/thesis_reflections}
-	\input{./chapter/thesis_resources}
-	\input{./chapter/thesis_typesetting}
-	\input{./chapter/thesis_conclusion}
 	
 % Formatting citations properly when they are rendering incorrectly in your PDF can be fiddly,
 % espectially when punctuation and international characters are involed. Sometimes multiple re-compilations

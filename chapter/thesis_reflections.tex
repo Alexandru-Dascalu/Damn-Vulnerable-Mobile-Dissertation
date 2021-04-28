@@ -1,16 +1,56 @@
-\chapter{Reflections and conclusions}
-	\label{chap:reflections}
+\chapter{Evaluation and conclusions}
+	\label{chap:evaluation_conclusion}
 	
-	\section{User studies}
+	\vspace{-9mm}
+	\section{Structured Interviews}
 	    \label{sec:user_studies}
+	\vspace{-3mm}
+	To ensure that our project achieves the aims from subsection \ref{sec:intro_objective}, we ran structured interviews with two of our peers. Both are Computer Science students at Swansea University and completed the Cryptography and IT Security and Writing Mobile Apps modules, and therefore are familiar with Android development and cyber security. The study consisted of completing one challenge with minimal guidance from us and then providing feedback. Participant 1 completed Broadcast Theft while the other did Broadcast Theft - MITM.
+	
+	\vspace{-1mm}
+	They both liked using the final product and said that the intended workflow made sense. More importantly, both said that completing the challenge taught them a lot about ICC vulnerabilities and made them aware of a type of attack they had not known about before. Participant 2 said that "It was sufficiently difficult, fun and interactive enough. It achieves more than its purpose and it should be used by more people." Since the education tool succeeds in educating developers about ICC vulnerabilities in Android, the project can be considered a success.
+	
+	\vspace{-1mm}
+	The problems encountered during the study are relatively minor and are related to the UI or the explanations included. Both said that the technical background would be better organised into various sections rather than a very long text you need to scroll through, and that workflow explanation should have some small improvements. Participant 1 complained in particular that the learning curve is very high. Another issue that both mentioned was that malware logs are very long and confusing at first.
+	
+	\section{Reflections on the schedule and software lifecycle}
+	    \label{sec:schedule_slc_reflection}
 	    
-	To ensure that our project achieves the aims mentioned in subsection \ref{sec:intro_objective}, we ran an informal user study with two of our peers, Constantinos Loizou and Avi Varma. Both are Computer Science students at Swansea University. Constantinos is a third year student while Avi is a Masters student. Both completed the Cryptography and IT Security and Writing Mobile Apps modules, and therefore are familiar with Android development and cyber security. The study consisted in them completing one challenge with minimal guidance from us and then providing feedback. Constantinos completed Broadcast Theft while Avi did Broadcast Theft - MITM.
+	The schedule submitted as part of the Initial Document is included in Appendix \ref{app:project_schedule}. Initially, I was to spend November by designing each challenge and the features and workflow of the educational tool. Following that, I would start implementing the software one challenge at a time and hoped to be done by March 1st. I would then spend the next two months implementing optional objectives and polishing the product.
 	
-	They both liked using the final product and said that the intended workflow made sense. More importantly, both said that completing the challenge taught them a lot about ICC vulnerabilities and made them aware of a type of attack they did not know about before. Avi said that "It was sufficiently difficult, fun and interactive enough. It achieves more than its purpose and it should be used by more people." Since the education tool succeeds in educationg developers about ICC vulnerabilities in Android, the project can be considered a success.
+	The project suffered due to delays from the start. We were on a full-time Year in Industry until September 2020 and had little time to research cyber security over the summer. Furthermore, we found it very hard to adjust back to university life, made worse by the online lectures. This delayed the design stage greatly. Moreover, the project suffered due to scope creep, as we wanted to make the scenarios in the challenges authentic, even though that was not mentioned in the Initial Document or by the supervisor. We spent a lot of time searching online for real-world examples of vulnerable apps, which are scarce. As a result, we started implementing the software two months late. Finally, we were too ambitious, as my supervisor said. The System Requirements in the Initial document specified eleven challenges, but we only managed to implement five.
 	
-	The problems encountered during the study are relatively minor and are related to the UI or the explanations included. Both said that the technical background would be better organised into various sections rather than a very long text you need to scroll through, and that workflow explanation should have some small improvements. Constantinos complained in particular that the learning curve is very high initially. Another issue that both mentioned was that malware logs are very long and confusing at first.
-	
-	\section{Reflections on the schedule}
-	    \label{sec:schedule_reflection}
+	Besides the external factors caused by the pandemic, we forgot to include time in the schedule for building the DVM-ICC app, which took 3 weeks before we could start the first challenge. After December 1st, we estimated it would take 14 days for the first challenge on the schedule, and each subsequent challenge would take less. The last one would take 4 days. The first challenge did indeed take 14 days to finish, but all the others took roughly one week. We learnt that you should be more pessimistic when planning a project and always include more time than you estimate.
 	    
-	The project schedule submitted as part of the Initial Document on the 2nd of November 2020 is included in Appendix \ref{app:project_schedule}. The project suffered due to delays from the very start. I was on a Year in Industry full time internship until 08.09.2020 and therefore had no little time to research cyber security over the summer. I settled on ICC vulnerabilities only a week before the Initial Document deadline.
+    In our Initial document, we said we would use a modified version of Incremental Development with Scrum as the Software Life Cycle. It would be modified because we would have a more pronounced Initial Design stage in November.
+	
+	The Initial Design stage took three months instead of the planned one month. We made a mistake by sticking to finishing this stage rather than starting the software implementation earlier. It would have been better for this project if the initial design was timeboxed to two weeks, and then we designed each challenge in each increment rather than all at once. However, after the initial design was completed, the life cycle served us well. We also found that it was better to have one-week sprints rather than two weeks long.
+	
+	\vspace{-2mm}
+	\section{Reflections on project risks}
+	    \label{sec:risks_reflection}
+	\vspace{-2mm}
+	    
+	The project had issues with an unrealistic schedule and being too ambitious, as mentioned in section \ref{sec:schedule_slc_reflection}. The first was mitigated with a 28-hour per week work schedule starting in February and the second by focusing on the core functionality of the DVM-ICC app and a couple of challenges rather than rushing to implement all of them.
+	
+	Regarding the project-specific risks we mentioned in section 6.6 of the Initial Document, we only suffered from a lack of motivation to work, and this was gone after January due to encouragement from the supervisor and our peers. We followed the mitigation strategy for all of the risks mentioned in the Initial Document.
+	
+	\vspace{-3mm}
+	\section{Future work}
+	    \label{sec:further_work}
+	\vspace{-2mm}
+	    
+	First of all, the project should be extended by implementing the other 6 challenges mentioned in the Initial Document. In the Initial Design, I made plans for another challenge, Activity Hijack with Result, and planned for a second vulnerable app for each challenge. These plans are included in Appendix \ref{app:challenge_design}, and they could be implemented in the future. Moreover, the product should be tested on Android versions other than 7.1 and 8.0. Finally, a larger and more complex user study should be done to further evaluate the product.
+	
+	Otherwise, there are qualitative improvements that could be done. Switching to the Manifests page from figure \ref{fig:manifests_fragment} takes a couple of seconds and the performance can be improved. The education material should be organised into several sections, as mentioned in section \ref{sec:user_studies}. We could gamify the product further by ensuring the DVM-ICC saves the user's challenge progress and offers points for each solved question.
+	
+	\vspace{-3mm}
+	\section{Conclusions}
+	    \label{sec:conclusions}
+	\vspace{-2mm}
+	
+	Mobile cyber security is a very important field given the popularity of mobile devices today, and attacks concerning communication between Android components can be very serious and are often overlooked in intentionally insecure Android apps, as demonstrated in Chapter \ref{chap:intro}.
+	
+	In this project, we created an intentionally insecure Android image that is focused on ICC vulnerabilities and attacks, shows authentic scenarios and real examples of malware, does not require the use of ADB shell, and has multiple security levels for each vulnerability, which sets it apart from the related work discussed in subsection \ref{subsec:ICC_related_work}.
+	
+	Although we did not implement all of the challenges promised in the Initial Document, we have created a solid platform and five highly polished challenges. We focused on completing the qualitative requirements rather than the quantitative ones. This strategy paid off, evidenced by the user studies from section \ref{sec:user_studies}, which show that this product achieves the project aims and is viable.
