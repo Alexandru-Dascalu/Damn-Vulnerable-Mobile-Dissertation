@@ -69,9 +69,9 @@
     
     A component defines what intents it can handle by specifying Intent Filters in the manifest file. An Intent Filter defines the type of intents an application can handle. A filter can say what actions the component can perform, what intent categories it accepts, the MIME data types it accepts, or the kind of URI resources it can handle. You can see an example of this Listing \ref{lst:intent_filter}. A component may declare multiple Intent Filters, and it is recommended that this is done for each task the component can do \cite{intents_and_intent_filters}.
     
-    \lstinputlisting[language={xml}, label={lst:intent_filter}, caption={Declaration of an activity in the Santander app with an intent filter that the intent in Listing \ref{lst:implicit_intent} will match.}]{./listings/intent_filter.xml}
+    \lstinputlisting[language={xml}, label={lst:intent_filter}, caption={Declaration of an activity in the SwanBank app with an intent filter that the intent in Listing \ref{lst:implicit_intent} will match.}]{./listings/intent_filter.xml}
     
-    \lstinputlisting[language={java}, label={lst:implicit_intent}, caption={Kotlin code from the Santander app of this project to make an implicit intent, add data to it and start an activity with it.}]{./listings/implicit_intent.kt}
+    \lstinputlisting[language={java}, label={lst:implicit_intent}, caption={Kotlin code from the SwanBank app of this project to make an implicit intent, add data to it and start an activity with it.}]{./listings/implicit_intent.kt}
     
     When an implicit intent is sent, the Android System compares its attributes against all intent filters of all components. For the intent to be matched with a filter, three tests are performed: the Action, Category test, and Data tests \cite{intents_and_intent_filters}. To pass the Action test, the Intent’s action must be amongst the actions of the filter. It passes the Category Test if all of its categories are found in the filter’s declaration, and the Data Test is passed if the data URI or MIME type matches one of the data elements in the filter. If the component has multiple filters, the intent only needs to match one for the component to receive it.
     

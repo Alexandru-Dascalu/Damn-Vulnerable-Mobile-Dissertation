@@ -111,16 +111,16 @@
     
     In general, the user is asked to take a look at the two apps to familiarise themselves with them and what they can do. Then, the user should make sure that the security level is set to low. After that, they should use the vulnerable app and malware according to the provided instructions in order to trigger the attack and observe it. 
     
-    \begin{wrapfigure}[19]{r}{0.4\textwidth}
+    \begin{wrapfigure}[21]{r}{0.45\textwidth}
         \centering
-        \includegraphics[width=0.4\textwidth]{graphics/log.PNG}
+        \includegraphics[width=0.45\textwidth]{graphics/log.PNG}
         \caption{Log of the malware for Content Provider URI Hijack after it successfully attacked the vulnerable app.}
         \label{fig:malware_log}
     \end{wrapfigure}
     
     Following that, the user needs to look in the malware's log, which is accessed from its app bar. If the attack was successful, the malware should have written in its log the flag associated with this specific challenge and security level, along with any relevant data it managed to steal from the vulnerable app. These would be hidden amongst the output of the Android Log of the malware. 
     
-    You can see an example of this in figure \ref{fig:malware_log}, where the messages from the Whatsapp vulnerable app have been stolen by the SMS Messages malware. The user should then copy the flag and submit it to the flag question for the current security level in the Questions page in the DVM-ICC app, to prove they have completed one level of the challenge. 
+    You can see an example of this in figure \ref{fig:malware_log}, where the messages from the FastChat vulnerable app have been stolen by the SMS Messages malware. The user should then copy the flag and submit it to the flag question for the current security level in the Questions page in the DVM-ICC app, to prove they have completed one level of the challenge. 
     
     At this point, the user should clear the log of the malware to see the effects of the next attack more easily, and then change the security level to the next value. They should repeat the process described in this subsection for every security level of that challenge.
     
@@ -267,9 +267,9 @@
     \subsubsection{Implementation}
         \label{subsubsec:provider_uri_hijack_implementation}
         
-    The vulnerable app for this challenge is Whatsapp, an internet messaging app named after the popular real-world app. This app lets you view some hard-coded chats, it does not have real functionality. These chats are accessed by the app through its content provider, which is not exported, but that has \lstinline|android:grantUriPermissions| set to true in its manifest. The user can click on a button to go to another activity where they can select what chats they want to delete. When they click the delete button, the activity will send an implicit intent that contains the selection of chats, a URI to where chats are stored in the provider, and flags for temporary read and write permissions. This intent is received by a service of Whatsapp, which is responsible for accessing the provider and deleting the messages.
+    The vulnerable app for this challenge is FastChat, an internet messaging app. This app lets you view some hard-coded chats, it does not have real functionality. These chats are accessed by the app through its content provider, which is not exported, but that has \lstinline|android:grantUriPermissions| set to true in its manifest. The user can click on a button to go to another activity where they can select what chats they want to delete. When they click the delete button, the activity will send an implicit intent that contains the selection of chats, a URI to where chats are stored in the provider, and flags for temporary read and write permissions. This intent is received by a service of FastChat, which is responsible for accessing the provider and deleting the messages.
     
-    Because this intent is implicit, it can be intercepted by the malware, which is the SMS Messages app in this case. This app only reads SMS messages on the device, it can not send new messages. The malware contains a service with an intent filter identical to that of the Whatsapp service. The malicious service will get the intent, and because the intent has temporary access flags, the malicious service can query the Whatsapp content provider and read messages. You can see these messages in the malware's log in figure \ref{fig:malware_log} on page \pageref{fig:malware_log}. Because Whatsapp's provider is not exported, if the malware queried the provider without having that intent, an exception would be thrown.
+    Because this intent is implicit, it can be intercepted by the malware, which is the SMS Messages app in this case. This app only reads SMS messages on the device, it can not send new messages. The malware contains a service with an intent filter identical to that of the FastChat service. The malicious service will get the intent, and because the intent has temporary access flags, the malicious service can query the FastChat content provider and read messages. You can see these messages in the malware's log in figure \ref{fig:malware_log} on page \pageref{fig:malware_log}. Because FastChat's provider is not exported, if the malware queried the provider without having that intent, an exception would be thrown.
     
     \subsubsection{Security Levels}
         \label{subsubsec:provider_uri_hijack_security_levels}
