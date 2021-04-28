@@ -56,11 +56,11 @@
     \subsection{Explicit Intents}
         \label{subsec:explicit_intents}
         
-    Explicit intents directly specify the application that should receive the intent and handle it. This is done by setting the package name of the receiving app or the full name of a component of said app \cite{intents_and_intent_filters}. In Listing \ref{lst:explicit_intent}, you can see an explicit intent sent from the Santander app of this project to an activity of the same app. The intent also contains data in the form of a URI.
+    Explicit intents directly specify the application that should receive the intent and handle it. This is done by setting the package name of the receiving app or the full name of a component of said app \cite{intents_and_intent_filters}. In Listing \ref{lst:explicit_intent}, you can see an explicit intent sent from the SwanBank app of this project to an activity of the same app. The intent also contains data in the form of a URI.
     
-    \lstinputlisting[language={java}, label={lst:explicit_intent}, caption={Kotlin code from the Santander app to make an explicit intent, add data to it and start an activity with it}]{./listings/explicit_intent.kt}
+    \lstinputlisting[language={java}, label={lst:explicit_intent}, caption={Kotlin code from the SwanBank app to make an explicit intent, add data to it and start an activity with it}]{./listings/explicit_intent.kt}
     
-    With an explitivt intent, only the targeted component can receive the intent. Explicit intents are usually used for communication between components of the same app, such as when one activity starts another when the user clicks a button. That being said, explicit intents can be used to start components of other apps as well, if those components are exported.
+    With an explicit intent, only the targeted component can receive the intent. Explicit intents are usually used for communication between components of the same app, such as when one activity starts another when the user clicks a button. That being said, explicit intents can be used to start components of other apps as well, if those components are exported.
     
     \subsection{Implicit Intents and Intent Filters}
         \label{subsec:implicit_intents}

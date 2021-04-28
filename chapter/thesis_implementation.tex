@@ -235,9 +235,9 @@
     \subsubsection{Implementation}
         \label{subsubsec:activity_hijack_implementation}
         
-    The vulnerable app for this challenge is Santander, a banking app. After they log in, the user can view details of fictitious bank accounts and can make fictional payments to another account, which will decrease the balance of one of the accounts displayed in the app.
+    The vulnerable app for this challenge is SwanBank, a banking app. After they log in, the user can view details of fictitious bank accounts and can make fictional payments to another account, which will decrease the balance of one of the accounts displayed in the app.
     
-    Santander has an intent filter for its Login activity, which you can see in Listing \ref{lst:intent_filter}, so that the user can click on a link that starts the app to make a payment. The link contains details of the recipient of the payment, such that these details are already filled in when the app launches and therefore making the payment easier. An implicit intent with this link can be sent from another app. It will match Santander's intent filter and start the Login activity to authenticate the user, before going to the payment screen.
+    SwanBank has an intent filter for its Login activity, which you can see in Listing \ref{lst:intent_filter}, so that the user can click on a link that starts the app to make a payment. The link contains details of the recipient of the payment, such that these details are already filled in when the app launches and therefore making the payment easier. An implicit intent with this link can be sent from another app. It will match SwanBank's intent filter and start the Login activity to authenticate the user, before going to the payment screen.
     
     \begin{wrapfigure}[18]{r}{0.32\textwidth}
         \centering
@@ -246,16 +246,16 @@
         \label{fig:activity_hijack}
     \end{wrapfigure}
 
-    The attacker decompiled the Santander app to see the code for the Login activity and its intent filter. They made an activity in the Money Manager malware that looks identical to the one in Santander and added to it an intent filter. Money Manager is an app for tracking and categorising one's income and expenses, but it does not have full functionality.
+    The attacker decompiled the SwanBank app to see the code for the Login activity and its intent filter. They made an activity in the Money Manager malware that looks identical to the one in SwanBank and added to it an intent filter. Money Manager is an app for tracking and categorising one's income and expenses, but it does not have full functionality.
     
-    When you open the app, the user sees a Loading screen, which sends an implicit intent to start the Login activity, seen in Listing \ref{lst:implicit_intent}. There will be two filters that match with this intent, and therefore the user will be asked to pick between Santander and Money Manager, as you can see in figure \ref{fig:activity_hijack}. Both are financial apps, and Money Manager has a similar icon and colour theme, and therefore a careless user might select the malware. Money Manager's Login activity looks identical to Santander's, so the user types in their credentials, which the malware can then send to the attacker. To make it as if nothing suspicious happened, it will say the credentials are incorrect and then start the legitimate Login activity with an explicit intent.
+    When you open the app, the user sees a Loading screen, which sends an implicit intent to start the Login activity, seen in Listing \ref{lst:implicit_intent}. There will be two filters that match with this intent, and therefore the user will be asked to pick between SwanBank and Money Manager, as you can see in figure \ref{fig:activity_hijack}. Both are financial apps, and Money Manager has a similar icon and colour theme, and therefore a careless user might select the malware. Money Manager's Login activity looks identical to SwanBank's, so the user types in their credentials, which the malware can then send to the attacker. To make it as if nothing suspicious happened, it will say the credentials are incorrect and then start the legitimate Login activity with an explicit intent.
     
     \subsubsection{Security Levels}
         \label{subsubsec:activity_hijack_security_levels}
         
-    When sending intents to start an activity or service, you cannot protect them with a permission as we did with a broadcast in subsection \ref{subsubsec:broadcast_theft_security_levels}. Therefore, in the Impossible security level, the solution to fix the vulnerability is for the Santander Loading activity to use an explicit intent to start the Login activity, as demonstrated in Listing \ref{lst:explicit_intent}. By doing this, the intent can not be sent to the malware. Explicit intents should be used for communication between components of the same app.
+    When sending intents to start an activity or service, you cannot protect them with a permission as we did with a broadcast in subsection \ref{subsubsec:broadcast_theft_security_levels}. Therefore, in the Impossible security level, the solution to fix the vulnerability is for the SwanBank Loading activity to use an explicit intent to start the Login activity, as demonstrated in Listing \ref{lst:explicit_intent}. By doing this, the intent can not be sent to the malware. Explicit intents should be used for communication between components of the same app.
 
-    However, when the user clicks on a link in another app to make a payment, the malware's intent filter will still match that implicit intent and the attack could succeed. For this case, the solution is to use App Links such that when a user clicks on a web link, they are either taken to a web page in a browser or they are taken to an activity in your app \cite{android_app_links}. These are not implemented in the Santander app at the current moment.
+    However, when the user clicks on a link in another app to make a payment, the malware's intent filter will still match that implicit intent and the attack could succeed. For this case, the solution is to use App Links such that when a user clicks on a web link, they are either taken to a web page in a browser or they are taken to an activity in your app \cite{android_app_links}. These are not implemented in the SwanBank app at the current moment.
     
     \subsection{Content Provider URI Hijacking}
         \label{subsec:provider_uri_hijacking}
